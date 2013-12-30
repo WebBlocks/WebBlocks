@@ -1,0 +1,9 @@
+{
+    "name": "WebBlocks",
+    "version": "2.0.0",
+    "dependencies": {
+        "bower":"1.2.8"
+    },
+    "devDependencies": {
+    }
+}
