@@ -79,7 +79,7 @@ framework do
   block 'existing-block' do
     block 'formerly-required-sub-block', :required => false
   end
-  include 'existing-block'
+  include 'existing-block', 'some-other-block'
 end
 ```
 
@@ -90,7 +90,11 @@ require 'WebBlocks/framework'
 include WebBlocks::Framework
 
 framework do
-  block 'new-block'
+  block 'new-block' do
+    set :path, some_custom_sources_path
+    scss_file '_some-file.scss'
+  end
+  include 'new-block'
 end
 ```
 
@@ -109,7 +113,7 @@ All tools support the following options:
 
 This utility is used to inspect WebBlocks configuration.
 
-##### Bower
+#### Bower
 
 To get a list of components to be registered based on `bower.json`:
 
@@ -117,7 +121,7 @@ To get a list of components to be registered based on `bower.json`:
 bin/inspect bower_registry
 ```
 
-##### Blocks
+#### Blocks
 
 To get a list of blocks and files as defined by `Blockfile.rb`:
 
@@ -139,7 +143,7 @@ bin/inspect --route="WebBlocks-visibility"
 
 Note that attributes here are raw as defined by the `Blocksfile.rb` file and the `Blockfile.rb` files of registered blocks; some files with `:required = false` attributes here may still be included during dependency resolution.
 
-##### Dependencies
+#### Dependencies
 
 To get a list of dependencies per the configuration of `Blocksfile.rb` and the blocks themselves:
 
@@ -161,7 +165,7 @@ For example, to see only `scss` files:
 bin/inspect dependency_order --type=scss
 ```
 
-## Testing
+### `rake test`
 
 Tests may be performed through `rake`:
 
