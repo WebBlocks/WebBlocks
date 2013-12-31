@@ -1,13 +1,19 @@
-require 'WebBlocks/support/tree/node'
+require 'WebBlocks/framework'
+require 'WebBlocks/structure/tree/node'
 require 'WebBlocks/structure/block'
 require 'WebBlocks/structure/scss_file'
-require 'WebBlocks/framework'
+require 'WebBlocks/structure/attribute/dependency'
+require 'WebBlocks/structure/attribute/loose_dependency'
 
 module WebBlocks
   module Structure
-    class Block < ::WebBlocks::Support::Tree::Node
+    class Block < ::WebBlocks::Structure::Tree::Node
 
       include WebBlocks::Framework
+      include WebBlocks::Structure::Attribute::Dependency
+      include WebBlocks::Structure::Attribute::LooseDependency
+
+      set :required, false
 
       def resolved_path
         path = attributes.has_key?(:path) ? attributes[:path] : ''

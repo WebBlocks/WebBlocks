@@ -1,4 +1,3 @@
-require 'WebBlocks/support/tree/node'
 require 'WebBlocks/structure/block'
 require 'WebBlocks/structure/raw_file'
 require 'WebBlocks/support/tsort/hash'
