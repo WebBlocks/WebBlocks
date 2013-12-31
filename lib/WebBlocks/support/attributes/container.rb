@@ -4,7 +4,7 @@ module WebBlocks
       module Container
 
         def has? name
-          attributes.has_key(name)
+          attributes.has_key? name
         end
 
         def get name
@@ -29,7 +29,9 @@ module WebBlocks
         def class_attributes
           computed = {}
           self.class.ancestors.reverse.each do |klass|
-            computed.merge! self.class.attributes[klass.to_s] if self.class.attributes.has_key? klass.to_s
+            if self.class.respond_to?(:attributes) and self.class.attributes.has_key?(klass.to_s)
+              computed.merge! self.class.attributes[klass.to_s]
+            end
           end
           Marshal.load(Marshal.dump(computed)) # deep clone
         end

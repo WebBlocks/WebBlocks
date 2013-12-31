@@ -1,6 +1,3 @@
-require 'WebBlocks/support/attributes/class_container'
-require 'WebBlocks/support/attributes/container'
-
 module WebBlocks
   module Support
     module Class

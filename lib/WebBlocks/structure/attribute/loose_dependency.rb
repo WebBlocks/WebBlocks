@@ -1,4 +1,4 @@
-require 'WebBlocks/support/attributes/class_container'
+require 'WebBlocks/support/attributes/class/container'
 
 module WebBlocks
   module Structure
@@ -6,7 +6,7 @@ module WebBlocks
       module LooseDependency
 
         class << self
-          include ::WebBlocks::Support::Attributes::ClassContainer
+          include ::WebBlocks::Support::Attributes::Class::Container
         end
 
         set :loose_dependencies, []
