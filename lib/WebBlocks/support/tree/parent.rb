@@ -4,10 +4,11 @@ module WebBlocks
       module Parent
 
         def add_child child
-          return if has_child? child.name
+          key = child.respond_to?(:name) ? child.name : child
+          return if has_child? key
           @children ||= {}
-          @children[child.name] = child
-          child.set_parent self
+          @children[key] = child
+          child.set_parent(self) if child.respond_to?(:set_parent)
         end
 
         def children
@@ -19,8 +20,8 @@ module WebBlocks
         end
 
         def remove_child child
-          name = child.respond_to?(name) ? child.name : child
-          children.remove name if has_child? name
+          name = child.respond_to?(:name) ? child.name : child
+          children.delete name if has_child? name
         end
 
       end

@@ -31,7 +31,7 @@ class TestStructure < Test::Unit::TestCase
 
   def test_structure_tree_classes
 
-    ['BaseNode','LeafNode','Node'].each do |type|
+    ['LeafNode','Node'].each do |type|
       klass = nil
       assert_nothing_raised("Tree::#{type} class defined"){ klass = eval "WebBlocks::Structure::Tree::#{type}" }
       assert klass.class == Class

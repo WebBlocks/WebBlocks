@@ -1,12 +1,42 @@
-require 'WebBlocks/structure/tree/base_node'
+require 'WebBlocks/support/attributes/class/container'
+require 'WebBlocks/support/attributes/container'
+require 'WebBlocks/support/class/extend_method'
+require 'WebBlocks/support/tree/node'
 require 'WebBlocks/support/tree/child'
 
 module WebBlocks
   module Structure
     module Tree
-      class LeafNode < BaseNode
+      class LeafNode
 
+        class << self
+          include ::WebBlocks::Support::Attributes::Class::Container
+          include ::WebBlocks::Support::Class::ExtendMethod
+        end
+
+        include ::WebBlocks::Support::Attributes::Container
+        include ::WebBlocks::Support::Tree::Node
         include ::WebBlocks::Support::Tree::Child
+
+        extend_method :initialize do |name, attributes = {}|
+          previous name
+          self.attributes attributes
+        end
+
+        def route *args
+          val = parents.map{|parent| parent.name}.reverse + [name] + args
+          val.shift
+          val
+        end
+
+        def merge_branch_array_attribute attribute, method = nil
+          parent ? (get(attribute) + parent.send(method || caller_locations(1,1)[0].label)) : get(attribute)
+        end
+
+        def run &block
+          instance_eval &block
+          self
+        end
 
       end
     end
