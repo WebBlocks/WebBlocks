@@ -16,7 +16,6 @@ module WebBlocks
         end
 
         def push name, value
-          puts attributes[name]
           attributes[name] << value
         end
 

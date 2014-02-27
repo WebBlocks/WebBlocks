@@ -1,6 +1,6 @@
+require 'extend_method'
 require 'WebBlocks/support/attributes/class/container'
 require 'WebBlocks/support/attributes/container'
-require 'WebBlocks/support/class/extend_method'
 require 'WebBlocks/support/tree/node'
 require 'WebBlocks/support/tree/child'
 
@@ -10,8 +10,8 @@ module WebBlocks
       class LeafNode
 
         class << self
+          include ::ExtendMethod
           include ::WebBlocks::Support::Attributes::Class::Container
-          include ::WebBlocks::Support::Class::ExtendMethod
         end
 
         include ::WebBlocks::Support::Attributes::Container
@@ -19,7 +19,7 @@ module WebBlocks
         include ::WebBlocks::Support::Tree::Child
 
         extend_method :initialize do |name, attributes = {}|
-          previous name
+          parent_method name
           self.attributes attributes
         end
 
