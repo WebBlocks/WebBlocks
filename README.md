@@ -100,24 +100,24 @@ end
 
 ## Usage
 
-WebBlocks provides a `blocks` executable `./bin/blocks` that wraps several commands. These commands range from `inspect`, which analyzes a WebBlocks configuration, to `compile`, which produces a WebBlocks build, and `watch`, which will reproduce a WebBlocks build every time a source file changes.
+WebBlocks provides a `blocks` executable that wraps several commands. These commands range from `inspect`, which analyzes a WebBlocks configuration, to `compile`, which produces a WebBlocks build, and `watch`, which will reproduce a WebBlocks build every time a source file changes.
 
 A list of all available commands is available via:
 
 ```
-./bin/blocks help
+bundle exec blocks help
 ```
 
 Each command also supports calling `help` for it, such as:
 
 ```
-./bin/blocks inspect help
+bundle exec blocks inspect help
 ```
 
 Similarly, one may inspect sub-commands as:
 
 ```
-./bin/blocks inspect help bower_registry
+bundle exec blocks inspect help bower_registry
 ```
 
 All commands accept several global options:
@@ -134,7 +134,7 @@ This command is used to inspect WebBlocks configuration.
 To get a list of components to be registered based on `bower.json`:
 
 ```
-./bin/blocks inspect bower_registry
+bundle exec blocks inspect bower_registry
 ```
 
 #### Blocks
@@ -142,19 +142,19 @@ To get a list of components to be registered based on `bower.json`:
 To get a list of blocks and files as defined by `Blockfile.rb`:
 
 ```
-./bin/blocks inspect blocks
+bundle exec blocks inspect blocks
 ```
 
 To include attributes set on blocks and files:
 
 ```
-./bin/blocks inspect blocks --attributes
+bundle exec blocks inspect blocks --attributes
 ```
 
 To filter within a route:
 
 ```
-./bin/blocks inspect --route="WebBlocks-visibility"
+bundle exec blocks inspect --route="WebBlocks-visibility"
 ```
 
 Note that attributes here are raw as defined by the `Blocksfile.rb` file and the `Blockfile.rb` files of registered blocks; some files with `:required = false` attributes here may still be included during dependency resolution.
@@ -164,13 +164,13 @@ Note that attributes here are raw as defined by the `Blocksfile.rb` file and the
 To get a list of dependencies per the configuration of `Blocksfile.rb` and the blocks themselves:
 
 ```
-./bin/blocks inspect dependency_list
+bundle exec blocks inspect dependency_list
 ```
 
 To get an list of files in the order that they will be compiled by WebBlocks:
 
 ```
-./bin/blocks inspect dependency_order
+bundle exec blocks inspect dependency_order
 ```
 
 Both commands support a type option for the file type.
@@ -178,7 +178,7 @@ Both commands support a type option for the file type.
 For example, to see only `scss` files:
 
 ```
-./bin/blocks inspect dependency_order --type=scss
+bundle exec blocks inspect dependency_order --type=scss
 ```
 
 ## Development
