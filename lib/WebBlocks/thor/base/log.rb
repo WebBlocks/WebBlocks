@@ -8,7 +8,8 @@ module WebBlocks
         def log(level, message = '', color = nil, force_new_line = (message.to_s !~ /( |\t)\Z/))
 
           log_color_map = {
-            :debug => :cyan
+            :debug => :cyan,
+            :fail => [:red, :bold]
           }
 
           if log_color_map.has_key? level
