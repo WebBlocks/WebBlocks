@@ -31,7 +31,7 @@ module WebBlocks
         bower_manager = ::WebBlocks::Manager::Bower.new @base_path
 
         if !bower_manager.installed? or self.options.reload_bower
-          log :debug, bower_manager.installed? ? 'Reloading bower components and registry...' : 'Loading bower components...'
+          log :debug, bower_manager.installed? ? 'Reloading bower components and registry...' : 'Installing bower components...'
           bower_manager.clean_update!
         elsif self.options.reload_registry
           log :debug, 'Reloading bower components registry...'

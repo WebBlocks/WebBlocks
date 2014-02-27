@@ -4,6 +4,8 @@ require 'WebBlocks/structure/block'
 require 'WebBlocks/structure/scss_file'
 require 'WebBlocks/structure/attribute/dependency'
 require 'WebBlocks/structure/attribute/loose_dependency'
+require 'WebBlocks/structure/attribute/reverse_dependency'
+require 'WebBlocks/structure/attribute/reverse_loose_dependency'
 
 module WebBlocks
   module Structure
@@ -12,6 +14,8 @@ module WebBlocks
       include WebBlocks::Framework
       include WebBlocks::Structure::Attribute::Dependency
       include WebBlocks::Structure::Attribute::LooseDependency
+      include WebBlocks::Structure::Attribute::ReverseDependency
+      include WebBlocks::Structure::Attribute::ReverseLooseDependency
 
       set :required, false
 
