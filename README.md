@@ -1,6 +1,6 @@
 # WebBlocks
 
-[![Build Status](https://travis-ci.org/WebBlocks/WebBlocks.png)](https://travis-ci.org/WebBlocks/WebBlocks) [![Dependency Status](https://gemnasium.com/WebBlocks/WebBlocks.png)](https://gemnasium.com/WebBlocks/WebBlocks) [![Code Climate](https://codeclimate.com/github/WebBlocks/WebBlocks.png)](https://codeclimate.com/github/WebBlocks/WebBlocks)
+[![Code Climate](https://codeclimate.com/github/WebBlocks/WebBlocks.png)](https://codeclimate.com/github/WebBlocks/WebBlocks) [![Build Status](https://travis-ci.org/WebBlocks/WebBlocks.png?branch=master)](https://travis-ci.org/WebBlocks/WebBlocks) [![Coverage Status](https://coveralls.io/repos/WebBlocks/WebBlocks/badge.png?branch=master)](https://coveralls.io/r/WebBlocks/WebBlocks?branch=master) [![Dependency Status](https://gemnasium.com/WebBlocks/WebBlocks.png)](https://gemnasium.com/WebBlocks/WebBlocks)
 
 ## Installation
 
