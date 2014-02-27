@@ -30,7 +30,7 @@ module WebBlocks
         end
 
         def merge_branch_array_attribute attribute, method = nil
-          parent ? (get(attribute) + parent.send(method || caller_locations(1,1)[0].label)) : get(attribute)
+          parent ? (get(attribute) + parent.send(method || caller[0][/`([^']*)'/, 1])) : get(attribute)
         end
 
         def run &block
