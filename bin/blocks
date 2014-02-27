@@ -4,5 +4,6 @@ require 'rubygems'
 require 'bundler'
 Bundler.setup(:default)
 
-require 'WebBlocks/thor/inspect'
-WebBlocks::Thor::Inspect.start
+require 'WebBlocks/thor/runner'
+
+::WebBlocks::Thor::Runner.start

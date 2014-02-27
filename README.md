@@ -98,27 +98,43 @@ framework do
 end
 ```
 
-## Command-Line Interface
+## Usage
 
-WebBlocks includes several tools located in `bin`. They can be used for analyzing configurations and compiling sources.
+WebBlocks provides a `blocks` executable `./bin/blocks` that wraps several commands. These commands range from `inspect`, which analyzes a WebBlocks configuration, to `compile`, which produces a WebBlocks build, and `watch`, which will reproduce a WebBlocks build every time a source file changes.
 
-All tools support the `help` command to print out a list of available commands and global options. Additionally, one may call `help [COMMAND]` to get detailed usage details and options for the command.
+A list of all available commands is available via:
 
-All tools support the following options:
+```
+./bin/blocks help
+```
+
+Each command also supports calling `help` for it, such as:
+
+```
+./bin/blocks inspect help
+```
+
+Similarly, one may inspect sub-commands as:
+
+```
+./bin/blocks inspect help bower_registry
+```
+
+All commands accept several global options:
 
 * `--reload-bower` to fetch a fresh copy of Bower components rather than any already in `bower_components`. This option should be used whenever dependencies are modified in `bower.json`.
 * `--reload-registry` to use a fresh copy of the registry rather than one in the cache. This option should be used if `node_modules/bower/bin/bower` is ever explicitly called.
 
-### `bin/inspect`
+### Inspect
 
-This utility is used to inspect WebBlocks configuration.
+This command is used to inspect WebBlocks configuration.
 
 #### Bower
 
 To get a list of components to be registered based on `bower.json`:
 
 ```
-bin/inspect bower_registry
+./bin/blocks inspect bower_registry
 ```
 
 #### Blocks
@@ -126,19 +142,19 @@ bin/inspect bower_registry
 To get a list of blocks and files as defined by `Blockfile.rb`:
 
 ```
-bin/inspect blocks
+./bin/blocks inspect blocks
 ```
 
 To include attributes set on blocks and files:
 
 ```
-bin/inspect blocks --attributes
+./bin/blocks inspect blocks --attributes
 ```
 
 To filter within a route:
 
 ```
-bin/inspect --route="WebBlocks-visibility"
+./bin/blocks inspect --route="WebBlocks-visibility"
 ```
 
 Note that attributes here are raw as defined by the `Blocksfile.rb` file and the `Blockfile.rb` files of registered blocks; some files with `:required = false` attributes here may still be included during dependency resolution.
@@ -148,13 +164,13 @@ Note that attributes here are raw as defined by the `Blocksfile.rb` file and the
 To get a list of dependencies per the configuration of `Blocksfile.rb` and the blocks themselves:
 
 ```
-bin/inspect dependency_list
+./bin/blocks inspect dependency_list
 ```
 
 To get an list of files in the order that they will be compiled by WebBlocks:
 
 ```
-bin/inspect dependency_order
+./bin/blocks inspect dependency_order
 ```
 
 Both commands support a type option for the file type.
@@ -162,10 +178,12 @@ Both commands support a type option for the file type.
 For example, to see only `scss` files:
 
 ```
-bin/inspect dependency_order --type=scss
+./bin/blocks inspect dependency_order --type=scss
 ```
 
-### `rake test`
+## Development
+
+### Testing
 
 Tests may be performed through `rake`:
 
