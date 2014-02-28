@@ -22,6 +22,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'thor'
   spec.add_dependency 'ruby-bower'
   spec.add_dependency 'extend_method'
+  spec.add_dependency 'compass'
+  spec.add_dependency 'sass-css-importer'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'

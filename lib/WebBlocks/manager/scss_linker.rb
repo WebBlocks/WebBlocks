@@ -8,7 +8,7 @@ module WebBlocks
       def initialize framework, base_path
         @framework = framework
         @base_path = base_path
-        @linker_file = ::WebBlocks::Product::ConcatFile::Scss.new @base_path + '.blocks/tmp/build.linked.scss'
+        @linker_file = ::WebBlocks::Product::ConcatFile::Scss.new @base_path + '.blocks/workspace/scss/blocks.scss'
       end
 
       #TODO: Fix this to be friendly to parallel processes and partial generation rather than building full file in one loop
