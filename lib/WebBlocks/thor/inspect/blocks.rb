@@ -11,7 +11,12 @@ module WebBlocks
       method_option :route, :type => :array, :default => [], :desc => 'Route to block to print'
       method_option :attributes, :type => :boolean, :default => false, :desc => 'Show block attributes'
       def blocks
-        Blocks::BlockPrinter.new(framework.block_from_route(options.route), :attributes => options[:attributes]).print!
+        with_blocks do
+          Blocks::BlockPrinter.new(
+            framework.block_from_route(options.route),
+            :attributes => options[:attributes]
+          ).print!
+        end
       end
 
     end

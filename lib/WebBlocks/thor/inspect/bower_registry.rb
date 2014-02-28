@@ -8,7 +8,7 @@ module WebBlocks
       desc "bower_registry", bower_registry_desc
       long_desc bower_registry_desc
       def bower_registry
-        @bower_registry.each do |name,path|
+        bower_manager.get_registry.each do |name,path|
           say name, :bold
           say "  #{path}", :green
         end

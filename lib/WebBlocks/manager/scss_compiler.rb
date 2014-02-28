@@ -6,17 +6,18 @@ module WebBlocks
   module Manager
     class ScssCompiler
 
-      def initialize framework, base_path
+      def initialize task
 
-        @framework = framework
-        @base_path = base_path
+        @task = task
 
       end
 
       def execute!
 
-        workspace_path = @base_path + '.blocks/workspace'
-        cache_path = @base_path + '.blocks/cache/sass'
+        @task.log :operation, 'Compiling SCSS'
+
+        workspace_path = @task.base_path + '.blocks/workspace'
+        cache_path = @task.base_path + '.blocks/cache/sass'
         options = {}
 
         Compass.add_configuration(
@@ -34,6 +35,8 @@ module WebBlocks
 
         FileUtils.mkdir_p to.parent
         Compass.compiler.compile from.to_s, to.to_s
+
+        @task.log :debug, "Saved #{to.to_s}"
 
       end
 

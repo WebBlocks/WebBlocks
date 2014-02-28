@@ -10,7 +10,8 @@ module WebBlocks
           log_color_map = {
             :debug => :cyan,
             :fail => [:red, :bold],
-            :warn => [:yellow]
+            :warn => [:yellow],
+            :operation => [:green]
           }
 
           if log_color_map.has_key? level

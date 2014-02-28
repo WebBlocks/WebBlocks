@@ -12,8 +12,10 @@ module WebBlocks
       def dependency_order
         type = self.class.type_get_class_from_string options.type
         begin
-          framework.get_file_load_order(type).each do |file|
-            say "#{file.resolved_path.to_s}"
+          with_blocks do
+            framework.get_file_load_order(type).each do |file|
+              say "#{file.resolved_path.to_s}"
+            end
           end
         rescue ::TSort::Cyclic => e
           say "Cycle detected with dependency load order", [:red, :bold]

@@ -11,7 +11,7 @@ module WebBlocks
       long_desc description
       def scss
         begin
-          WebBlocks::Manager::ScssCompiler.new(framework, @base_path).execute!
+          with_blocks { WebBlocks::Manager::ScssCompiler.new(self).execute! }
         rescue ::TSort::Cyclic => e
           say "Cycle detected with dependency load order", [:red, :bold]
           fail e, :red
