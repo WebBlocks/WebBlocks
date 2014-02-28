@@ -2,6 +2,7 @@ require 'WebBlocks/framework'
 require 'WebBlocks/structure/tree/node'
 require 'WebBlocks/structure/block'
 require 'WebBlocks/structure/scss_file'
+require 'WebBlocks/structure/js_file'
 require 'WebBlocks/structure/attribute/dependency'
 require 'WebBlocks/structure/attribute/loose_dependency'
 require 'WebBlocks/structure/attribute/reverse_dependency'
@@ -38,6 +39,10 @@ module WebBlocks
         child_eval ::WebBlocks::Structure::ScssFile, name, attributes, block
       end
 
+      def js_file name, attributes = {}, &block
+        child_eval ::WebBlocks::Structure::JsFile, name, attributes, block
+      end
+
       def files
         computed = []
         children.each do |name,object|
@@ -64,8 +69,8 @@ module WebBlocks
         leaf_nodes
       end
 
-      def required_files type = RawFile
-        select_leaf_nodes Proc.new(){ |node| node.get(:required) }, Proc.new(){ |node| node.is_a? type }
+      def required_files
+        select_leaf_nodes Proc.new(){ |node| node.get(:required) }, Proc.new(){ |node| node.is_a? RawFile }
       end
 
       private

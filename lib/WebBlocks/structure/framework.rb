@@ -46,11 +46,11 @@ module WebBlocks
         block
       end
 
-      def adjacency_list type = RawFile
+      def adjacency_list
 
         file_dependencies = {}
 
-        files = required_files type
+        files = required_files
         while files.length > 0
           file = files.pop
           file_dependencies[file] = []
@@ -74,13 +74,7 @@ module WebBlocks
 
       def get_file_load_order type = RawFile
 
-        ::WebBlocks::Support::TSort::Hash.try_convert(adjacency_list type).tsort
-
-      end
-
-      def run!
-
-
+        ::WebBlocks::Support::TSort::Hash.try_convert(adjacency_list).tsort.keep_if(){ |file| file.is_a? type }
 
       end
 

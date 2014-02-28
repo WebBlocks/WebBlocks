@@ -40,8 +40,15 @@ module WebBlocks
 
         log :debug, bower_manager.has_registry_cache? ? 'Loading cached bower component registry...' : 'Generating bower component registry...'
         @bower_registry = bower_registry = bower_manager.get_registry
+        task = self
         framework :path => @base_path do
-          bower_registry.each { |name, path| register :name => name, :path => path }
+          bower_registry.each do |name, path|
+            begin
+              register :name => name, :path => path
+            rescue
+              task.log :warn, "Initialization skipping block #{name} because no block file exists"
+            end
+          end
         end
 
         log :debug, "Loading #{@blocksfile_path}..."
