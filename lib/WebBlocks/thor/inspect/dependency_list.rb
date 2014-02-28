@@ -1,3 +1,5 @@
+require 'WebBlocks/thor/inspect'
+
 module WebBlocks
   module Thor
     class Inspect

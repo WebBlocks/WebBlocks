@@ -1,3 +1,4 @@
+require 'WebBlocks/thor/inspect'
 require 'WebBlocks/thor/inspect/blocks/block_printer'
 
 module WebBlocks

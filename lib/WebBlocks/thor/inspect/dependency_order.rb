@@ -1,4 +1,5 @@
 require 'tsort'
+require 'WebBlocks/thor/inspect'
 
 module WebBlocks
   module Thor
