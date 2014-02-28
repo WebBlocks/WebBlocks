@@ -1,17 +1,17 @@
 require 'tsort'
 require 'WebBlocks/thor/link'
-require 'WebBlocks/manager/scss_linker'
+require 'WebBlocks/manager/js_linker'
 
 module WebBlocks
   module Thor
     class Link
 
-      description = "Construct linked construct of SCSS files based on dependencies"
-      desc "scss", description
+      description = "Construct linked construct of JS files based on dependencies"
+      desc "js", description
       long_desc description
-      def scss
+      def js
         begin
-          ::WebBlocks::Manager::ScssLinker.new(framework, @base_path).execute!
+          ::WebBlocks::Manager::JsLinker.new(framework, @base_path).execute!
         rescue ::TSort::Cyclic => e
           say "Cycle detected with dependency load order", [:red, :bold]
           fail e, :red
