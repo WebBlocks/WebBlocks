@@ -2,6 +2,8 @@
     "name": "WebBlocks",
     "version": "2.0.0",
     "dependencies": {
-        "WebBlocks-visibility": "WebBlocks/block-visibility"
+        "WebBlocks-visibility": "WebBlocks/block-visibility",
+        "efx": "ebollens/efx",
+        "jquery-build": "http://code.jquery.com/jquery-1.11.0.js"
     }
 }
