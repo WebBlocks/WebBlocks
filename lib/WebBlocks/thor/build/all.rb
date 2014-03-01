@@ -1,9 +1,6 @@
 require 'tsort'
 require 'WebBlocks/thor/link'
-require 'WebBlocks/manager/js_linker'
-require 'WebBlocks/manager/scss_linker'
-require 'WebBlocks/manager/scss_compiler'
-require 'fork'
+require 'WebBlocks/manager/builder_jobs'
 
 class Fork
 
@@ -12,8 +9,6 @@ end
 module WebBlocks
   module Thor
     class Build
-
-
 
       description = "Build all assets"
       desc "all", description
@@ -25,23 +20,10 @@ module WebBlocks
 
           prepare_blocks!
 
-          task = self
-
-          scss = Fork.execute :return do
-            @log.thread_name = "SCSS"
-            WebBlocks::Manager::ScssLinker.new(task).execute!
-            WebBlocks::Manager::ScssCompiler.new(task).execute!
-            true
-          end
-
-          js = Fork.execute :return do
-            @log.thread_name = "JS"
-            WebBlocks::Manager::JsLinker.new(task).execute!
-            true
-          end
-
-          scss.return_value
-          js.return_value
+          jobs = WebBlocks::Manager::BuilderJobs.new self, log
+          jobs.start :scss
+          jobs.start :js
+          jobs.wait_for_complete!
 
         rescue ::TSort::Cyclic => e
 

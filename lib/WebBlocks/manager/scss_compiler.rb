@@ -6,15 +6,18 @@ module WebBlocks
   module Manager
     class ScssCompiler
 
-      def initialize task
+      attr_reader :log
+
+      def initialize task, log
 
         @task = task
+        @log = log.scope 'Compiler'
 
       end
 
       def execute!
 
-        @task.log.info 'Compiling SCSS'
+        log.info { "Starting" }
 
         workspace_path = @task.base_path + '.blocks/workspace'
         cache_path = @task.base_path + '.blocks/cache/sass'
@@ -41,7 +44,9 @@ module WebBlocks
         Compass.compiler.compile from.to_s, to.to_s
 
         output.rewind
-        output.each_line { |line| @task.log.debug("Compiler - Compass"){ line.to_s.gsub(/\n/,'') } }
+        output.each_line { |line| log.debug("Compass"){ line.to_s.gsub(/\n/,'') } }
+
+        log.info { "Finished" }
 
       end
 

@@ -1,5 +1,6 @@
 require 'pathname'
-require 'WebBlocks/support/thread_logger'
+require 'logger'
+require 'WebBlocks/support/scoped_logger'
 require 'WebBlocks/manager/bower'
 require 'WebBlocks/thor/base'
 
@@ -31,8 +32,10 @@ module WebBlocks
 
         @bower_manager = ::WebBlocks::Manager::Bower.new @base_path
 
-        @log = ::WebBlocks::Support::ThreadLogger.new ::Logger.new(STDOUT)
-        @log.thread_name = 'MAIN'
+        base = ::Logger.new STDOUT
+        base.level = ::Logger::DEBUG
+        base.datetime_format = '%Y-%m-%d %H:%M:%S'
+        @log = ::WebBlocks::Support::ScopedLogger.new_without_scope base
 
       end
 

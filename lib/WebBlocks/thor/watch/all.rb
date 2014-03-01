@@ -3,9 +3,7 @@ require 'pathname'
 require 'fork'
 require 'fssm'
 require 'WebBlocks/thor/watch'
-require 'WebBlocks/manager/js_linker'
-require 'WebBlocks/manager/scss_linker'
-require 'WebBlocks/manager/scss_compiler'
+require 'WebBlocks/manager/builder_jobs'
 
 module WebBlocks
   module Thor
@@ -23,8 +21,6 @@ module WebBlocks
 
           prepare_blocks!
 
-          task = self
-
           triggers = framework.adjacency_list.keys.map(){|f| f.resolved_path.to_s }
           triggers << base_path + 'Blocksfile.rb'
           triggers << base_path + '.blocks/cache/bower/registry.yaml'
@@ -35,30 +31,17 @@ module WebBlocks
             changed_file = Pathname.new(base) + relative
             relink_needed = changed_file.to_s.match(/Blocks+file.rb$/)
 
-            @log.info("Watch"){ "Detected change to #{changed_file}" }
+            log.info("Watch"){ "Detected change to #{changed_file}" }
 
             if relink_needed
               framework.remove_all_children
               prepare_blocks!
             end
 
-            # TODO: refactor thread management into a concurrency manager
-
-            scss = Fork.execute :return do
-              @log.thread_name = "SCSS"
-              WebBlocks::Manager::ScssLinker.new(task).execute!
-              WebBlocks::Manager::ScssCompiler.new(task).execute!
-              true
-            end
-
-            js = Fork.execute :return do
-              @log.thread_name = "JS"
-              WebBlocks::Manager::JsLinker.new(task).execute!
-              true
-            end
-
-            scss.return_value
-            js.return_value
+            jobs = WebBlocks::Manager::BuilderJobs.new self, log
+            jobs.start :scss
+            jobs.start :js
+            jobs.wait_for_complete!
 
           end
 

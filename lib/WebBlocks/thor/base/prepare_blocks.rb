@@ -20,14 +20,18 @@ module WebBlocks
 
         def prepare_blocks!
 
-          if !bower_manager.installed? or self.options.reload_bower
-            install_bower_components!
-          elsif self.options.reload_registry
-            clean_bower_registry!
-          end
+          log.scope 'Prepare' do |log|
 
-          load_bower_registry!
-          load_blocksfile!
+            if !bower_manager.installed? or self.options.reload_bower
+              install_bower_components! log
+            elsif self.options.reload_registry
+              clean_bower_registry! log
+            end
+
+            load_bower_registry! log
+            load_blocksfile! log
+
+          end
 
         end
 
@@ -35,40 +39,48 @@ module WebBlocks
 
       private
 
-      def install_bower_components!
+      def install_bower_components! log
 
-        log.debug bower_manager.installed? ? 'Reloading bower components and cleaning component registry' : 'Installing bower components'
-        bower_manager.clean_update!
-
-      end
-
-      def clean_bower_registry!
-
-        log.debug 'Cleaning bower component registry'
-        bower_manager.clean_registry_cache!
-
-      end
-
-      def load_bower_registry!
-
-        log.debug bower_manager.has_registry_cache? ? 'Loading cached bower component registry' : 'Generating bower component registry'
-        task = self
-        framework :path => @base_path do
-          task.bower_manager.get_registry.each do |name, path|
-            begin
-              register :name => name, :path => path
-            rescue
-              task.log.warn "Initialization skipping block #{name} because no block file exists"
-            end
-          end
+        log.debug do
+          bower_manager.clean_update!
+          bower_manager.installed? ? 'Reloaded bower components and cleaning component registry' : 'Installed bower components'
         end
 
       end
 
-      def load_blocksfile!
+      def clean_bower_registry! log
 
-        log.debug "Loading #{@blocksfile_path}"
-        load @blocksfile_path
+        log.debug do
+          bower_manager.clean_registry_cache!
+          'Cleaned bower component registry'
+        end
+
+      end
+
+      def load_bower_registry! log
+
+        log.debug do
+          task = self
+          framework :path => @base_path do
+            task.bower_manager.get_registry.each do |name, path|
+              begin
+                register :name => name, :path => path
+              rescue
+                log.warn { "Initialization skipping block #{name} because no block file exists" }
+              end
+            end
+          end
+          bower_manager.has_registry_cache? ? 'Loaded cached bower component registry' : 'Generated bower component registry'
+        end
+
+      end
+
+      def load_blocksfile! log
+
+        log.debug do
+          load @blocksfile_path
+          "Loaded #{@blocksfile_path}"
+        end
 
       end
 
