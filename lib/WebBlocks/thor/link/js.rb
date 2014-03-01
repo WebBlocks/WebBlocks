@@ -9,12 +9,19 @@ module WebBlocks
       description = "Construct linked construct of JS files based on dependencies"
       desc "js", description
       long_desc description
+
       def js
+
         begin
-          with_blocks { ::WebBlocks::Manager::JsLinker.new(self).execute! }
+
+          prepare_blocks!
+          ::WebBlocks::Manager::JsLinker.new(self).execute!
+
         rescue ::TSort::Cyclic => e
+
           log.fatal "Cycle detected with dependency load order"
           fail e, :red
+
         end
       end
 

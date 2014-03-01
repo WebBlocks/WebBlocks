@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'compass'
   spec.add_dependency 'sass-css-importer'
   spec.add_dependency 'thread'
+  spec.add_dependency 'fssm'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'

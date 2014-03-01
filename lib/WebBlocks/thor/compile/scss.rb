@@ -9,13 +9,21 @@ module WebBlocks
       description = "Compile linked SCSS files"
       desc "scss", description
       long_desc description
+
       def scss
+
         begin
-          with_blocks { WebBlocks::Manager::ScssCompiler.new(self).execute! }
+
+          prepare_blocks!
+          ::WebBlocks::Manager::ScssCompiler.new(self).execute!
+
         rescue ::TSort::Cyclic => e
+
           log.fatal "Cycle detected with dependency load order"
           fail e, :red
+
         end
+
       end
 
     end

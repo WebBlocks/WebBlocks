@@ -17,29 +17,27 @@ module WebBlocks
 
         begin
 
-          with_blocks do
+          prepare_blocks!
 
-            task = self
+          task = self
 
-            scss = Thread.future {
-              @log.thread_name = "SCSS"
-              WebBlocks::Manager::ScssLinker.new(task).execute!
-              WebBlocks::Manager::ScssCompiler.new(task).execute!
-            }
+          scss = Thread.future {
+            @log.thread_name = "SCSS"
+            WebBlocks::Manager::ScssLinker.new(task).execute!
+            WebBlocks::Manager::ScssCompiler.new(task).execute!
+          }
 
-            js = Thread.future {
-              @log.thread_name = "JS"
-              WebBlocks::Manager::JsLinker.new(task).execute!
-            }
+          js = Thread.future {
+            @log.thread_name = "SCSS"
+            WebBlocks::Manager::JsLinker.new(task).execute!
+          }
 
-            ~scss
-            ~js
-
-          end
+          ~scss
+          ~js
 
         rescue ::TSort::Cyclic => e
 
-          log.fatal "Cycle detected with dependency load order"
+          say "Cycle detected with dependency load order", [:red, :bold]
           fail e, :red
 
         end

@@ -18,7 +18,7 @@ module WebBlocks
 
       no_commands do
 
-        def prepare!
+        def prepare_blocks!
 
           if !bower_manager.installed? or self.options.reload_bower
             install_bower_components!
@@ -50,6 +50,7 @@ module WebBlocks
       end
 
       def load_bower_registry!
+
         log.debug bower_manager.has_registry_cache? ? 'Loading cached bower component registry' : 'Generating bower component registry'
         task = self
         framework :path => @base_path do
@@ -61,11 +62,14 @@ module WebBlocks
             end
           end
         end
+
       end
 
       def load_blocksfile!
+
         log.debug "Loading #{@blocksfile_path}..."
         require @blocksfile_path
+
       end
 
     end
