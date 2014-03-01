@@ -7,15 +7,19 @@ module WebBlocks
         @running = []
       end
       def start &block
-        fork = Fork.execute :return do
+        fork = Fork.execute :return, :exceptions do
           yield
           true
         end
         @running << fork
       end
       def wait_for_complete!
-        @running.each { |p| p.return_value }
-        @running = []
+        begin
+          @running.each { |p| p.return_value }
+        ensure
+          @running.each { |p| p.kill if p.alive? }
+          @running = []
+        end
       end
     end
   end

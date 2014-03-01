@@ -1,4 +1,3 @@
-require 'tsort'
 require 'WebBlocks/thor/inspect'
 
 module WebBlocks
@@ -16,13 +15,8 @@ module WebBlocks
 
         type = self.class.type_get_class_from_string options.type
 
-        begin
-          framework.get_file_load_order(type).each do |file|
-            say "#{file.resolved_path.to_s}"
-          end
-        rescue ::TSort::Cyclic => e
-          log.fatal "Cycle detected with dependency load order"
-          fail e, :red
+        framework.get_file_load_order(type).each do |file|
+          say "#{file.resolved_path.to_s}"
         end
 
       end

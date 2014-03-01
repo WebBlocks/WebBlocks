@@ -1,4 +1,3 @@
-require 'tsort'
 require 'WebBlocks/thor/link'
 require 'WebBlocks/strategy/link/scss'
 
@@ -12,17 +11,8 @@ module WebBlocks
 
       def scss
 
-        begin
-
-          prepare_blocks!
-          ::WebBlocks::Strategy::Link::Scss.new(self, log).execute!
-
-        rescue ::TSort::Cyclic => e
-
-          log.fatal "Cycle detected with dependency load order"
-          fail e, :red
-
-        end
+        prepare_blocks!
+        ::WebBlocks::Strategy::Link::Scss.new(self, log).execute!
 
       end
 

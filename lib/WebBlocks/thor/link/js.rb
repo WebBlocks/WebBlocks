@@ -12,17 +12,9 @@ module WebBlocks
 
       def js
 
-        begin
+        prepare_blocks!
+        ::WebBlocks::Strategy::Link::Js.new(self, log).execute!
 
-          prepare_blocks!
-          ::WebBlocks::Strategy::Link::Js.new(self, log).execute!
-
-        rescue ::TSort::Cyclic => e
-
-          log.fatal "Cycle detected with dependency load order"
-          fail e, :red
-
-        end
       end
 
     end

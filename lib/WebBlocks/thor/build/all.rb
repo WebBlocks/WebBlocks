@@ -16,21 +16,12 @@ module WebBlocks
 
       def all
 
-        begin
+        prepare_blocks!
 
-          prepare_blocks!
-
-          jobs = WebBlocks::Manager::ParallelBuilder.new self, log
-          jobs.start :scss
-          jobs.start :js
-          jobs.wait_for_complete!
-
-        rescue ::TSort::Cyclic => e
-
-          say "Cycle detected with dependency load order", [:red, :bold]
-          fail e, :red
-
-        end
+        jobs = WebBlocks::Manager::ParallelBuilder.new self, log
+        jobs.start :scss
+        jobs.start :js
+        jobs.wait_for_complete!
 
       end
 
