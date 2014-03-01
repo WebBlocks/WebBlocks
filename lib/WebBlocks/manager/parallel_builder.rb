@@ -1,14 +1,14 @@
 require 'WebBlocks/support/parallel_jobs'
-require 'WebBlocks/manager/js_builder'
-require 'WebBlocks/manager/scss_builder'
+require 'WebBlocks/manager/builder/js'
+require 'WebBlocks/manager/builder/scss'
 
 module WebBlocks
   module Manager
-    class BuilderJobs
+    class ParallelBuilder
 
       MAP = {
-        :scss => { :scope_name => 'SCSS', :strategy => WebBlocks::Manager::ScssBuilder },
-        :js => { :scope_name => 'JS', :strategy => WebBlocks::Manager::JsBuilder }
+        :scss => { :scope_name => 'SCSS', :strategy => WebBlocks::Manager::Builder::Scss },
+        :js => { :scope_name => 'JS', :strategy => WebBlocks::Manager::Builder::Js }
       }
 
       attr_reader :task

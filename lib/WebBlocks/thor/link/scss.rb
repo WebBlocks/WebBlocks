@@ -1,6 +1,6 @@
 require 'tsort'
 require 'WebBlocks/thor/link'
-require 'WebBlocks/manager/scss_linker'
+require 'WebBlocks/strategy/scss/link'
 
 module WebBlocks
   module Thor
@@ -15,7 +15,7 @@ module WebBlocks
         begin
 
           prepare_blocks!
-          ::WebBlocks::Manager::ScssLinker.new(self).execute!
+          ::WebBlocks::Strategy::Scss::Link.new(self, log).execute!
 
         rescue ::TSort::Cyclic => e
 

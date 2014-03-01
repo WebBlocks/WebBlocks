@@ -20,7 +20,7 @@ module WebBlocks
 
         def prepare_blocks!
 
-          log.scope 'Prepare' do |log|
+          log.scope 'INIT' do |log|
 
             if !bower_manager.installed? or self.options.reload_bower
               install_bower_components! log
@@ -59,18 +59,23 @@ module WebBlocks
 
       def load_bower_registry! log
 
-        log.debug do
-          task = self
-          framework :path => @base_path do
-            task.bower_manager.get_registry.each do |name, path|
-              begin
-                register :name => name, :path => path
-              rescue
-                log.warn { "Initialization skipping block #{name} because no block file exists" }
+        log.scope 'Block' do |log|
+          log.debug do
+            task = self
+            framework :path => @base_path do
+              task.bower_manager.get_registry.each do |name, path|
+                begin
+                  log.debug name do
+                    register :name => name, :path => path
+                    "Loaded"
+                  end
+                rescue
+                  log.warn("#{name}") { "Skipped -- Blockfile.rb does not exist" }
+                end
               end
             end
+            bower_manager.has_registry_cache? ? 'Loaded cached bower component registry' : 'Generated bower component registry'
           end
-          bower_manager.has_registry_cache? ? 'Loaded cached bower component registry' : 'Generated bower component registry'
         end
 
       end

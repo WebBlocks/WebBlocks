@@ -3,7 +3,7 @@ require 'pathname'
 require 'fork'
 require 'fssm'
 require 'WebBlocks/thor/watch'
-require 'WebBlocks/manager/builder_jobs'
+require 'WebBlocks/manager/parallel_builder'
 
 module WebBlocks
   module Thor
@@ -38,7 +38,7 @@ module WebBlocks
               prepare_blocks!
             end
 
-            jobs = WebBlocks::Manager::BuilderJobs.new self, log
+            jobs = WebBlocks::Manager::ParallelBuilder.new self, log
             jobs.start :scss
             jobs.start :js
             jobs.wait_for_complete!
