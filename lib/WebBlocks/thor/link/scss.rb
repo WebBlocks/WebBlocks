@@ -13,7 +13,7 @@ module WebBlocks
         begin
           with_blocks { ::WebBlocks::Manager::ScssLinker.new(self).execute! }
         rescue ::TSort::Cyclic => e
-          say "Cycle detected with dependency load order", [:red, :bold]
+          log.fatal "Cycle detected with dependency load order"
           fail e, :red
         end
       end

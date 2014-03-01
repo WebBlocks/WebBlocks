@@ -3,6 +3,7 @@ require 'WebBlocks/thor/link'
 require 'WebBlocks/manager/js_linker'
 require 'WebBlocks/manager/scss_linker'
 require 'WebBlocks/manager/scss_compiler'
+require 'thread/future'
 
 module WebBlocks
   module Thor
@@ -11,17 +12,38 @@ module WebBlocks
       description = "Build all assets"
       desc "all", description
       long_desc description
+
       def all
+
         begin
+
           with_blocks do
-            WebBlocks::Manager::JsLinker.new(self).execute!
-            WebBlocks::Manager::ScssLinker.new(self).execute!
-            WebBlocks::Manager::ScssCompiler.new(self).execute!
+
+            task = self
+
+            scss = Thread.future {
+              @log.thread_name = "SCSS"
+              WebBlocks::Manager::ScssLinker.new(task).execute!
+              WebBlocks::Manager::ScssCompiler.new(task).execute!
+            }
+
+            js = Thread.future {
+              @log.thread_name = "JS"
+              WebBlocks::Manager::JsLinker.new(task).execute!
+            }
+
+            ~scss
+            ~js
+
           end
+
         rescue ::TSort::Cyclic => e
-          say "Cycle detected with dependency load order", [:red, :bold]
+
+          log.fatal "Cycle detected with dependency load order"
           fail e, :red
+
         end
+
       end
 
     end
