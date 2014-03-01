@@ -67,8 +67,8 @@ module WebBlocks
 
       def load_blocksfile!
 
-        log.debug "Loading #{@blocksfile_path}..."
-        require @blocksfile_path
+        log.debug "Loading #{@blocksfile_path}"
+        load @blocksfile_path
 
       end
 

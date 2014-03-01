@@ -43,8 +43,6 @@ module WebBlocks
         output.rewind
         output.each_line { |line| @task.log.debug("Compiler - Compass"){ line.to_s.gsub(/\n/,'') } }
 
-        @task.log.debug("Compiler") { "Saved #{to.to_s}" }
-
       end
 
     end

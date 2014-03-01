@@ -24,6 +24,10 @@ module WebBlocks
           children.delete name if has_child? name
         end
 
+        def remove_all_children
+          @children = {}
+        end
+
       end
     end
   end

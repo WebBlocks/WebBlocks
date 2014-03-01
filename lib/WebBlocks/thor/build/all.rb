@@ -28,7 +28,7 @@ module WebBlocks
           }
 
           js = Thread.future {
-            @log.thread_name = "SCSS"
+            @log.thread_name = "JS"
             WebBlocks::Manager::JsLinker.new(task).execute!
           }
 

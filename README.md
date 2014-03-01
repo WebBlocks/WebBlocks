@@ -125,6 +125,64 @@ All commands accept several global options:
 * `--reload-bower` to fetch a fresh copy of Bower components rather than any already in `bower_components`. This option should be used whenever dependencies are modified in `bower.json`.
 * `--reload-registry` to use a fresh copy of the registry rather than one in the cache. This option should be used if `node_modules/bower/bin/bower` is ever explicitly called.
 
+### Build
+
+*NOTE: This feature is in progress. Currently, build products are saved into `.blocks/workspace/`.*
+
+This command will link, compile and optimize a build:
+
+```
+bundle exec blocks build
+```
+
+### Watch
+
+*NOTE: This feature is in progress. Currently, build products are saved into `.blocks/workspace/`.*
+
+This command will watch for pertinent changes and rebuild when they occur:
+
+```
+bundle exec blocks watch
+```
+
+## Development
+
+### Testing
+
+Tests may be performed through `rake`:
+
+```
+rake test
+```
+
+### Partial Builds
+
+The build process is composed of several separate steps.
+
+These should not usually be called on their own, except for testing, debugging or advanced use cases. Their outputs may be found under `.blocks/workspace`.
+
+##### Link
+
+An SCSS file composed of `@import` rules may be generated into the temporary workspace:
+
+```
+bundle exec blocks link scss
+```
+
+A JS file of all JS sources concatenated together may be generated into the temporary workspace:
+
+```
+bundle exec blocks link js
+```
+
+##### Compile
+
+The link phase is all that's needed to compose the WebBlocks Javascript; however, for SCSS, only an import sheet is generated, and thus an actual CSS file may be generated into the temporary workspace:
+
+```
+bundle exec blocks compile scss
+```
+
 ### Inspect
 
 This command is used to inspect WebBlocks configuration.
@@ -179,14 +237,4 @@ For example, to see only `scss` files:
 
 ```
 bundle exec blocks inspect dependency_order --type=scss
-```
-
-## Development
-
-### Testing
-
-Tests may be performed through `rake`:
-
-```
-rake test
 ```

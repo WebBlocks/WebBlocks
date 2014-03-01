@@ -35,9 +35,14 @@ framework do
 
   include 'WebBlocks-visibility', 'breakpoint'
   include 'WebBlocks-visibility', 'accessible'
+
   include 'efx', 'driver', 'accordion'
   include 'efx', 'driver', 'tabs'
   include 'efx', 'driver', 'toggle'
+
+  # also valid would be either of these to include all efx drivers:
+  #   include 'efx', 'driver'
+  #   include 'efx'
 
 end
 
