@@ -1,6 +1,6 @@
 require 'tsort'
 require 'pathname'
-require 'thread/future'
+require 'fork'
 require 'fssm'
 require 'WebBlocks/thor/watch'
 require 'WebBlocks/manager/js_linker'
@@ -44,19 +44,21 @@ module WebBlocks
 
             # TODO: refactor thread management into a concurrency manager
 
-            scss = Thread.future {
+            scss = Fork.execute :return do
               @log.thread_name = "SCSS"
-              WebBlocks::Manager::ScssLinker.new(task).execute! if relink_needed
+              WebBlocks::Manager::ScssLinker.new(task).execute!
               WebBlocks::Manager::ScssCompiler.new(task).execute!
-            }
+              true
+            end
 
-            js = Thread.future {
+            js = Fork.execute :return do
               @log.thread_name = "JS"
-              WebBlocks::Manager::JsLinker.new(task).execute! if relink_needed
-            }
+              WebBlocks::Manager::JsLinker.new(task).execute!
+              true
+            end
 
-            ~scss
-            ~js
+            scss.return_value
+            js.return_value
 
           end
 
