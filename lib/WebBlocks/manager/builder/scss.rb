@@ -1,6 +1,6 @@
 require 'WebBlocks/manager/builder/base'
-require 'WebBlocks/strategy/scss/link'
-require 'WebBlocks/strategy/scss/compile'
+require 'WebBlocks/strategy/link/scss'
+require 'WebBlocks/strategy/compile/scss'
 
 module WebBlocks
   module Manager
@@ -10,8 +10,8 @@ module WebBlocks
         def execute!
 
           super do
-            WebBlocks::Strategy::Scss::Link.new(task, log).execute!
-            WebBlocks::Strategy::Scss::Compile.new(task, log).execute!
+            WebBlocks::Strategy::Link::Scss.new(task, log).execute!
+            WebBlocks::Strategy::Compile::Scss.new(task, log).execute!
           end
 
         end

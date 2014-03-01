@@ -4,8 +4,8 @@ require 'sass-css-importer'
 
 module WebBlocks
   module Strategy
-    module Scss
-      class Compile
+    module Compile
+      class Scss
 
         attr_reader :log
 

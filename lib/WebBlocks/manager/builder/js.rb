@@ -1,5 +1,5 @@
 require 'WebBlocks/manager/builder/base'
-require 'WebBlocks/strategy/js/link'
+require 'WebBlocks/strategy/link/js'
 
 module WebBlocks
   module Manager
@@ -9,7 +9,7 @@ module WebBlocks
         def execute!
 
           super do
-            WebBlocks::Strategy::Js::Link.new(task, log).execute!
+            WebBlocks::Strategy::Link::Js.new(task, log).execute!
           end
 
         end
