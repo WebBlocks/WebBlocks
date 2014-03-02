@@ -2,8 +2,10 @@ require 'WebBlocks/thor/base'
 
 module WebBlocks
   module Thor
-    class Compile < Base
+    module Partial
+      class Compile < Base
 
+      end
     end
   end
 end

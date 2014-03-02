@@ -1,5 +1,5 @@
 require 'tsort'
-require 'WebBlocks/thor/link'
+require 'WebBlocks/thor/build'
 require 'WebBlocks/manager/parallel_builder'
 
 class Fork
