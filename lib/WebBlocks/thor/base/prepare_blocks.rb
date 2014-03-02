@@ -63,7 +63,7 @@ module WebBlocks
           log.debug do
             task = self
             framework :path => @base_path do
-              task.bower_manager.get_registry.each do |name, path|
+              task.bower_manager.registry.components.each do |name, path|
                 begin
                   log.debug name do
                     register :name => name, :path => path

@@ -9,6 +9,7 @@ module WebBlocks
     class Base
 
       attr_reader :base_path
+      attr_reader :bowerfile_path
       attr_reader :blockfile_path
       attr_reader :bower_manager
       attr_reader :log
@@ -41,6 +42,16 @@ module WebBlocks
 
         initialize_paths_from_resolved! unless initialize_paths_from_options!
 
+        unless File.exists? blockfile_path
+          log.fatal('INIT') { "Blockfile does not exist at #{blockfile_path}" }
+          exit 1
+        end
+
+        unless File.exists? bowerfile_path
+          log.fatal('INIT') { "bower.json does not exist at #{bowerfile_path}" }
+          exit 1
+        end
+
       end
 
       def initialize_paths_from_options!
@@ -49,12 +60,8 @@ module WebBlocks
 
         @blockfile_path = Pathname.new(Dir.pwd) + self.options.blockfile
 
-        unless File.exists? @blockfile_path
-          log.fatal('INIT') { "Blockfile does not exist at #{@blockfile_path}" }
-          exit 1
-        end
-
         @base_path = @blockfile_path.parent
+        @bowerfile_path = @base_path + 'bower.json'
 
       end
 
@@ -66,6 +73,7 @@ module WebBlocks
         if File.exists? path + 'Blockfile.rb'
           @base_path = path
           @blockfile_path = path + 'Blockfile.rb'
+          @bowerfile_path = @base_path + 'bower.json'
           return true
         end
 
