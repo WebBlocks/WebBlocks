@@ -15,7 +15,7 @@ module WebBlocks
 
         type = self.class.type_get_class_from_string options.type
 
-        framework.get_file_load_order(type).each do |file|
+        root.get_file_load_order(type).each do |file|
           say "#{file.resolved_path.to_s}"
         end
 

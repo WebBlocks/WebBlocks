@@ -9,7 +9,7 @@ module WebBlocks
         def execute!
 
           super do
-            WebBlocks::Strategy::Link::Js.new(task, log).execute!
+            WebBlocks::Strategy::Link::Js.new(task).execute!
           end
 
         end

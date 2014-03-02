@@ -1,5 +1,5 @@
 require 'tsort'
-require 'WebBlocks/thor/link'
+require 'WebBlocks/thor/build'
 require 'WebBlocks/manager/parallel_builder'
 
 class Fork
@@ -18,7 +18,7 @@ module WebBlocks
 
         prepare_blocks!
 
-        jobs = WebBlocks::Manager::ParallelBuilder.new self, log
+        jobs = WebBlocks::Manager::ParallelBuilder.new self
         jobs.start :scss
         jobs.start :js
         jobs.wait_for_complete!

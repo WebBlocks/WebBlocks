@@ -16,6 +16,11 @@ module WebBlocks
                    :default => false,
                    :desc => 'Reload block registry rather than using cache'
 
+      class_option :include,
+                   :type => :array,
+                   :default => nil,
+                   :desc => 'Paths to explicitly include'
+
       no_commands do
 
         def prepare_blocks!
@@ -29,7 +34,9 @@ module WebBlocks
             end
 
             load_bower_registry! log
-            load_blocksfile! log
+            load_blockfile! log
+            include_own_routes! log
+            include_routes_from_command_line! log if self.options.include
 
           end
 
@@ -63,7 +70,7 @@ module WebBlocks
           log.debug do
             task = self
             framework :path => @base_path do
-              task.bower_manager.get_registry.each do |name, path|
+              task.bower_manager.registry.components.each do |name, path|
                 begin
                   log.debug name do
                     register :name => name, :path => path
@@ -80,12 +87,50 @@ module WebBlocks
 
       end
 
-      def load_blocksfile! log
+      def load_blockfile! log
 
-        log.debug do
-          load @blocksfile_path
-          "Loaded #{@blocksfile_path}"
+        if blockfile_path
+
+          log.debug do
+
+            root.instance_eval File.read blockfile_path
+            "Loaded #{blockfile_path}"
+
+          end
+
         end
+
+      end
+
+      def include_own_routes! log
+
+        own_name = bower_manager.registry.name
+        if root.has_child? own_name
+          root.children[own_name].set :required, true
+        end
+
+      end
+
+      def include_routes_from_command_line! log
+
+        route = []
+
+        self.options.include.each do |segment|
+
+          delimiter = segment[segment.length-1] == ','
+
+          route.push delimiter ? segment[0,segment.length-1] : segment
+
+          if delimiter
+            root.include *route
+            puts route.to_json
+            route = []
+          end
+
+        end
+
+        root.include *route if route.length > 0
+        puts route.to_json
 
       end
 

@@ -8,10 +8,6 @@ module WebBlocks
 
       set :required, true
 
-      def initialize name, options = {}
-        super name, options
-      end
-
       def register hash
         name = hash[:name]
         path = hash[:path]

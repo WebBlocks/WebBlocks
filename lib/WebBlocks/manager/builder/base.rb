@@ -6,10 +6,10 @@ module WebBlocks
         attr_reader :log
         attr_reader :task
 
-        def initialize task, log
+        def initialize task
 
           @task = task
-          @log = log.scope 'Builder'
+          @log = task.log.scope 'Builder'
 
         end
 

@@ -7,18 +7,17 @@ module WebBlocks
     module Compile
       class Scss
 
+        attr_reader :task
         attr_reader :log
-        attr_reader :io
         attr_reader :workspace_path
         attr_reader :cache_path
 
-        def initialize task, log
+        def initialize task
 
           @task = task
-          @log = log.scope 'Compile'
-
-          @workspace_path = @task.base_path + '.blocks/workspace'
-          @cache_path = @task.base_path + '.blocks/cache/sass'
+          @log = task.log.scope 'Compile'
+          @workspace_path = task.base_path + '.blocks/workspace'
+          @cache_path = task.base_path + '.blocks/cache/sass'
 
         end
 

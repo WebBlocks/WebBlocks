@@ -3,15 +3,15 @@ module WebBlocks
     module Link
       class Base
 
-        attr_reader :log
         attr_reader :task
+        attr_reader :log
         attr_reader :linker_file
         attr_accessor :files_to_link
 
-        def initialize task, log
+        def initialize task
 
           @task = task
-          @log = log.scope 'Link'
+          @log = task.log.scope 'Link'
           @linker_file = make_linker_file
           @files_to_link = compute_files_to_link
 

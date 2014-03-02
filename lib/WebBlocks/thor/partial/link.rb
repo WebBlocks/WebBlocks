@@ -2,8 +2,10 @@ require 'WebBlocks/thor/base'
 
 module WebBlocks
   module Thor
-    class Link < Base
+    module Partial
+      class Link < Base
 
+      end
     end
   end
 end
