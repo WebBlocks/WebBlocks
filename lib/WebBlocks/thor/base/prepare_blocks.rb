@@ -83,7 +83,7 @@ module WebBlocks
       def load_blocksfile! log
 
         log.debug do
-          load @blocksfile_path
+          framework.instance_eval File.read @blocksfile_path
           "Loaded #{@blocksfile_path}"
         end
 
