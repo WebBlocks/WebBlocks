@@ -3,6 +3,7 @@ require 'logger'
 require 'web_blocks/support/scoped_logger'
 require 'web_blocks/manager/bower'
 require 'web_blocks/thor/base'
+require 'web_blocks/version'
 
 module WebBlocks
   module Thor
@@ -41,7 +42,7 @@ module WebBlocks
 
       def initialize_version!
 
-        if WebBlocks::VERSION.match /-dev$/
+        if WebBlocks::VERSION.match /dev$/
           puts "
 = = = = = = = = = = = = W A R N I N G = = = = = = = = = = = = = = =
 

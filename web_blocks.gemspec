@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.version       = WebBlocks::VERSION
   spec.authors       = ['Eric Bollens']
   spec.email         = ['ebollens@ucla.edu']
-  spec.description   = 'WebBlocks description'
-  spec.summary       = 'WebBlocks summary'
-  spec.homepage      = 'http://webblocks.github.io'
+  spec.description   = 'Package, configuration and dependency manager for web assets (SCSS, JS, images, and fonts)'
+  spec.summary       = 'package, configuration and dependency manager for web assets (SCSS, JS, images, and fonts)'
+  spec.homepage      = 'http://github.com/WebBlocks/WebBlocks'
   spec.license       = 'BSD'
 
   spec.files         = `git ls-files`.split($/)

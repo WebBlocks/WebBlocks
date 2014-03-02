@@ -1,6 +1,6 @@
 # WebBlocks
 
-WebBlocks is package, configuration and dependency manager for web assets.
+WebBlocks is package, configuration and dependency manager for web assets (SCSS, JS, images, and fonts).
 
 ## Status
 
