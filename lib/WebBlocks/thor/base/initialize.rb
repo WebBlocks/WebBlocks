@@ -29,6 +29,7 @@ module WebBlocks
 
         super args, options, config
 
+        initialize_version!
         initialize_log!
         initialize_paths!
         initialize_bower_manager!
@@ -37,6 +38,22 @@ module WebBlocks
       end
 
       private
+
+      def initialize_version!
+
+        if WebBlocks::VERSION.match /-dev$/
+          puts "
+= = = = = = = = = = = = W A R N I N G = = = = = = = = = = = = = = =
+
+You are using a pre-release DEVELOPMENT SNAPSHOT of WebBlocks.
+This software should not be considered stable, and users are asked
+to be mindful of the fact that there may be significant changes to
+the APIs ad internals before release.
+
+= = = = = = = = = = = = W A R N I N G = = = = = = = = = = = = = = =\n\n"
+        end
+
+      end
 
       def initialize_log!
         base = ::Logger.new STDOUT

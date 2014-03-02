@@ -7,6 +7,11 @@ module WebBlocks
     module Link
       class Scss < Base
 
+        def initialize task
+          super task
+          @log = task.log.scope 'SCSS - Link'
+        end
+
         def product_path
           task.base_path + '.blocks/workspace/scss/blocks.scss'
         end

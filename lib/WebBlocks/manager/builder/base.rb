@@ -9,7 +9,7 @@ module WebBlocks
         def initialize task
 
           @task = task
-          @log = task.log.scope 'Builder'
+          @log = task.log.scope 'BUILD'
 
         end
 

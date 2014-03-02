@@ -17,7 +17,7 @@ module WebBlocks
         def initialize task
 
           @task = task
-          @log = task.log.scope 'Compile'
+          @log = task.log.scope 'SCSS - Compile'
           @workspace_path = task.base_path + '.blocks/workspace'
           @cache_path = task.base_path + '.blocks/cache/sass'
           @source_path = @workspace_path + 'scss/blocks.scss'

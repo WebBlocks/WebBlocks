@@ -7,6 +7,11 @@ module WebBlocks
     module Link
       class Js < Base
 
+        def initialize task
+          super task
+          @log = task.log.scope 'JS - Link'
+        end
+
         def product_path
           task.base_path + '.blocks/workspace/js/blocks.js'
         end

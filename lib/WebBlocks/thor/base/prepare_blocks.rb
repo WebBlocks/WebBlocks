@@ -1,4 +1,5 @@
 require 'pathname'
+require 'execjs/module'
 require 'WebBlocks/manager/bower'
 require 'WebBlocks/thor/base'
 
@@ -27,10 +28,23 @@ module WebBlocks
 
           log.scope 'INIT' do |log|
 
-            if !bower_manager.installed? or self.options.reload_bower
-              install_bower_components! log
-            elsif self.options.reload_registry
-              clean_bower_registry! log
+            begin
+
+              if !bower_manager.installed? or self.options.reload_bower
+                install_bower_components! log
+              elsif self.options.reload_registry
+                clean_bower_registry! log
+              end
+
+            rescue ::ExecJS::ProgramError => e
+
+              if e.message.match "Cannot find module 'bower'"
+                log.fatal { 'Bower must be installed -- try `npm install bower\'' }
+                exit 1
+              else
+                raise e
+              end
+
             end
 
             load_bower_registry! log

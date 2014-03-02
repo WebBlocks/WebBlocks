@@ -1,6 +1,6 @@
 # WebBlocks
 
-WebBlocks is package, configuration and dependency manager intended to
+WebBlocks is package, configuration and dependency manager for web assets.
 
 ## Status
 
@@ -24,20 +24,21 @@ WebBlocks is built on top of a number of outstanding open source platforms and p
 
 **NOTE** Assuming installation in one of the ways described as follows, this documentation uses `blocks` as a shell command; in cases where it's installed locally by bundle rather than globally, it may be necessary to use `bundle exec blocks` instead.
 
-### From Source
+### Download
+
+#### From Source
 
 Download or clone repository from:
 
 > https://github.com/WebBlocks/WebBlocks
 
-Install Ruby and Node.js dependencies:
+Install Ruby dependencies:
 
 ```
 bundle
-npm install
 ```
 
-### From Another Project
+#### As Gem
 
 Add the following to `Gemfile` (creating it if it does not exist):
 
@@ -45,7 +46,39 @@ Add the following to `Gemfile` (creating it if it does not exist):
 gem 'WebBlocks', :git => 'https://github.com/WebBlocks/WebBlocks.git'
 ```
 
-Add the following to `package.json` (creating it if it does not exist):
+Install it as a Gemfile dependency:
+
+```
+bundle
+```
+
+### Bower
+
+WebBlocks requires Bower to be installed.
+
+#### Globally
+
+The easiest way to do this:
+
+```
+npm install -g bower
+```
+
+Additionally, you must ensure that your rc file (`.bashrc`, `.zshrc`, etc.) properly sets `$NODE_PATH` to the `node_modules` directory where global installs are placed. If it does not, you may want to add something of the form:
+
+```
+export NODE_PATH=$(npm config get prefix)/lib/node_modules
+```
+
+#### Locally
+
+An alternative is that, in the directory where you're going to compile WebBlocks (the same as where `bower.json` will be placed), you may do a local install of bower:
+
+```
+npm install bower
+```
+
+Alternatively, this can be done by defining a `package.json`:
 
 ```json
 {
@@ -55,13 +88,11 @@ Add the following to `package.json` (creating it if it does not exist):
 }
 ```
 
-Install Ruby and Node.js dependencies:
+And then simply calling:
 
 ```
-bundle
 npm install
 ```
-
 
 ## Usage
 
@@ -110,7 +141,7 @@ $ blocks partial compile help scss
 
 All commands (except `help`) accept several global options:
 
-* `--base-path` defines an explicit directory where `bower.json` resides (and where `bower_components` and `.blocks` will be created). If this is not specified, WebBlocks will attempt to use the current working directory, or if there's no `bower.json` file in there, it will traverse into parent directories searching for one, exiting with a failure if neither the current working directory nor any parent contains a `bower.json` file.
+* `--base-path` defines an explicit directory where `bower.json` resides (and where `bower_components`, `.blocks` and `build` will be created). If this is not specified, WebBlocks will attempt to use the current working directory, or if there's no `bower.json` file in there, it will traverse into parent directories searching for one, exiting with a failure if neither the current working directory nor any parent contains a `bower.json` file.
 * `--blockfile-path` defines an explicit Blockfile location relative to the current working directory. If this is not specified, then `Blockfile.rb` is assumed to reside in the `--base-path`.
 * `--include` defines one or more blocks to include that aren't included by the blockfile itself. Route segments should be space-delimited, and includes should be comma-delimited: `--include efx driver tabs, efx driver toggle`. If spaces or special characters are used, then the values must be enclosed in quotes or escaped.
 * `--reload-bower` to discard the components in `bower_components` and fetch a fresh copy. This option should be used whenever dependencies are modified in `bower.json`.
@@ -118,23 +149,19 @@ All commands (except `help`) accept several global options:
 
 ### Build
 
-This command will link, compile and optimize a build:
+This command will link, compile and produce a build into the `build` directory:
 
 ```
 blocks build
 ```
 
-**NOTE** This feature is in progress. Currently, build products are saved into `.blocks/workspace/`.
-
 ### Watch
 
-This command will watch for pertinent changes and rebuild when they occur:
+This command will watch for pertinent changes and rebuild into the `build` directory:
 
 ```
 blocks watch
 ```
-
-**NOTE** This feature is in progress. Currently, build products are saved into `.blocks/workspace/`.
 
 ### Development
 
@@ -234,11 +261,7 @@ blocks inspect dependency_order --type=scss
 
 ### Defining Components
 
-Blocks are the fundamental constituents of WebBlocks.
-
-WebBlocks uses [Bower](http://bower.io) to manage the packages where these blocks are defined.
-
-First off, `bower.json` must define and name and version for the build you're going to create. The name is important in that it defines the block that WebBlocks will load by default when compiling (although others may be included as dependencies or explicitly - more on this later):
+Blocks are the fundamental constituents of WebBlocks, defined as bower components. Consequently, `bower.json` must define and name and version for the build you're going to create. The name is important in that it defines the block that WebBlocks will load by default when compiling (although others may be included as dependencies or explicitly - more on this later):
 
 ```json
 {
@@ -612,3 +635,7 @@ $ blocks inspect dependency_order
 /Users/ebollens/Sites/test/bower_components/efx/src/driver/toggle.css
 /Users/ebollens/Sites/test/bower_components/efx/src/driver/toggle.js
 ```
+
+### Learn More
+
+See the `demo` folder for a example setup.
