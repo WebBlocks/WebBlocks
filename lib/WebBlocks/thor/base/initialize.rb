@@ -101,9 +101,9 @@ module WebBlocks
           @blockfile_path = base_path + 'Blockfile.rb'
         end
 
-        unless File.exists? blockfile_path
-          log.fatal('INIT') { "Blockfile does not exist at #{blockfile_path}" }
-          exit 1
+        unless File.exists? @blockfile_path
+          @blockfile_path = nil
+          log.warn('INIT') { "Running without Blockfile -- does not exist at #{@blockfile_path}" }
         end
 
       end

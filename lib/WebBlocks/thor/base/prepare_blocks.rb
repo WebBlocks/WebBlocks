@@ -89,10 +89,14 @@ module WebBlocks
 
       def load_blockfile! log
 
-        log.debug do
+        if blockfile_path
 
-          root.instance_eval File.read blockfile_path
-          "Loaded #{blockfile_path}"
+          log.debug do
+
+            root.instance_eval File.read blockfile_path
+            "Loaded #{blockfile_path}"
+
+          end
 
         end
 
