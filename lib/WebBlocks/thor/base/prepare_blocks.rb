@@ -29,7 +29,7 @@ module WebBlocks
             end
 
             load_bower_registry! log
-            load_blocksfile! log
+            load_blockfile! log
 
           end
 
@@ -80,11 +80,11 @@ module WebBlocks
 
       end
 
-      def load_blocksfile! log
+      def load_blockfile! log
 
         log.debug do
-          framework.instance_eval File.read @blocksfile_path
-          "Loaded #{@blocksfile_path}"
+          framework.instance_eval File.read blockfile_path
+          "Loaded #{blockfile_path}"
         end
 
       end
