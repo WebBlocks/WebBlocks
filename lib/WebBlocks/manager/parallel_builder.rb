@@ -14,16 +14,16 @@ module WebBlocks
       attr_reader :task
       attr_reader :log
 
-      def initialize task, log
+      def initialize task
         @task = task
-        @log = log
+        @log = task.log
         @parallel_jobs = WebBlocks::Support::ParallelJobs.new
       end
 
       def start type
         @parallel_jobs.start do
           log.scope MAP[type][:scope_name] do |log|
-            MAP[type][:strategy].new(task, log).execute!
+            MAP[type][:strategy].new(task).execute!
           end
         end
       end

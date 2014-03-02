@@ -12,7 +12,7 @@ module WebBlocks
       def scss
 
         prepare_blocks!
-        ::WebBlocks::Strategy::Link::Scss.new(self, log).execute!
+        ::WebBlocks::Strategy::Link::Scss.new(self).execute!
 
       end
 

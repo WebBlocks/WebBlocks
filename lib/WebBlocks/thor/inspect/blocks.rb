@@ -16,7 +16,7 @@ module WebBlocks
         prepare_blocks!
 
         Blocks::BlockPrinter.new(
-          framework.block_from_route(options.route),
+          root.block_from_route(options.route),
           :attributes => options[:attributes]
         ).print!
 

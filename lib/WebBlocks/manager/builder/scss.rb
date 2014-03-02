@@ -10,8 +10,8 @@ module WebBlocks
         def execute!
 
           super do
-            WebBlocks::Strategy::Link::Scss.new(task, log).execute!
-            WebBlocks::Strategy::Compile::Scss.new(task, log).execute!
+            WebBlocks::Strategy::Link::Scss.new(task).execute!
+            WebBlocks::Strategy::Compile::Scss.new(task).execute!
           end
 
         end

@@ -13,7 +13,7 @@ module WebBlocks
       def js
 
         prepare_blocks!
-        ::WebBlocks::Strategy::Link::Js.new(self, log).execute!
+        ::WebBlocks::Strategy::Link::Js.new(self).execute!
 
       end
 

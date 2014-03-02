@@ -13,7 +13,7 @@ module WebBlocks
       def scss
 
         prepare_blocks!
-        ::WebBlocks::Strategy::Compile::Scss.new(self, log).execute!
+        ::WebBlocks::Strategy::Compile::Scss.new(self).execute!
 
       end
 

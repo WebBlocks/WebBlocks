@@ -12,7 +12,7 @@ module WebBlocks
         end
 
         def compute_files_to_link
-          task.framework.get_file_load_order(::WebBlocks::Structure::JsFile)
+          task.root.get_file_load_order(::WebBlocks::Structure::JsFile)
         end
 
       end

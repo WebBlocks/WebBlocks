@@ -18,7 +18,7 @@ module WebBlocks
 
         prepare_blocks!
 
-        jobs = WebBlocks::Manager::ParallelBuilder.new self, log
+        jobs = WebBlocks::Manager::ParallelBuilder.new self
         jobs.start :scss
         jobs.start :js
         jobs.wait_for_complete!

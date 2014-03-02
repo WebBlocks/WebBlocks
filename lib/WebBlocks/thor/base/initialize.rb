@@ -13,6 +13,7 @@ module WebBlocks
       attr_reader :blockfile_path
       attr_reader :bower_manager
       attr_reader :log
+      attr_reader :root
 
       class_option :blockfile,
                    :type => :string,
@@ -26,6 +27,7 @@ module WebBlocks
         initialize_log!
         initialize_paths!
         initialize_bower_manager!
+        initialize_root!
 
       end
 
@@ -89,6 +91,12 @@ module WebBlocks
       def initialize_bower_manager!
 
         @bower_manager = ::WebBlocks::Manager::Bower.new @base_path
+
+      end
+
+      def initialize_root!
+
+        @root = framework
 
       end
 
