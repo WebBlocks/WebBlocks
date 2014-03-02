@@ -124,6 +124,8 @@ All commands accept several global options:
 
 * `--reload-bower` to fetch a fresh copy of Bower components rather than any already in `bower_components`. This option should be used whenever dependencies are modified in `bower.json`.
 * `--reload-registry` to use a fresh copy of the registry rather than one in the cache. This option should be used if `node_modules/bower/bin/bower` is ever explicitly called.
+* `--blockfile` to define a blockfile besides `Blockfile.rb` in the current working directory or nearest one in a parent directory.
+* `--include` to define one or more blocks to include that aren't included by the blockfile itself. Route segments should be space-delimited, and includes should be comma-delimited: `--include efx driver tabs, efx driver toggle`. If spaces or special characters are used, then the values must be enclosed in quotes or escaped.
 
 ### Build
 
