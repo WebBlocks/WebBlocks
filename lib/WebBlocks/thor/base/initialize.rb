@@ -115,7 +115,11 @@ module WebBlocks
 
       def initialize_root!
 
-        @root = framework
+        @root = framework do
+          set :build_dir, 'build'
+          set :css_build_dir, 'css'
+          set :js_build_dir, 'js'
+        end
 
       end
 

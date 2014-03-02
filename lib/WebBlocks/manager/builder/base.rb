@@ -15,11 +15,13 @@ module WebBlocks
 
         def execute!
 
-          log.info { "Starting" }
-
           yield if block_given?
 
-          log.info { "Finished" }
+        end
+
+        def save!
+
+          yield task.base_path + task.root.get(:build_dir) if block_given?
 
         end
 

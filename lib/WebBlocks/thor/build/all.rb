@@ -21,7 +21,7 @@ module WebBlocks
         jobs = WebBlocks::Manager::ParallelBuilder.new self
         jobs.start :scss
         jobs.start :js
-        jobs.wait_for_complete!
+        jobs.save_when_done!
 
       end
 

@@ -7,8 +7,12 @@ module WebBlocks
     module Link
       class Scss < Base
 
+        def product_path
+          task.base_path + '.blocks/workspace/scss/blocks.scss'
+        end
+
         def make_linker_file
-          ::WebBlocks::Product::ConcatFile::Scss.new task.base_path + '.blocks/workspace/scss/blocks.scss'
+          ::WebBlocks::Product::ConcatFile::Scss.new product_path
         end
 
         def compute_files_to_link

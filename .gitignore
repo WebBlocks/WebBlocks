@@ -20,3 +20,4 @@ tmp
 bower_components
 node_modules
 .blocks
+/build

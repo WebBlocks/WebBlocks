@@ -11,6 +11,8 @@ module WebBlocks
         attr_reader :log
         attr_reader :workspace_path
         attr_reader :cache_path
+        attr_reader :product_path
+        attr_reader :source_path
 
         def initialize task
 
@@ -18,6 +20,8 @@ module WebBlocks
           @log = task.log.scope 'Compile'
           @workspace_path = task.base_path + '.blocks/workspace'
           @cache_path = task.base_path + '.blocks/cache/sass'
+          @source_path = @workspace_path + 'scss/blocks.scss'
+          @product_path = @workspace_path + 'css/blocks.css'
 
         end
 
@@ -29,7 +33,7 @@ module WebBlocks
 
           with_compass_io output do
             configure_compass!
-            compile_files!
+            compass_compile!
           end
 
           output.rewind
@@ -52,16 +56,10 @@ module WebBlocks
 
         end
 
-        def compile_files!
+        def compass_compile!
 
-          compile_file workspace_path + 'scss/blocks.scss', workspace_path + 'css/blocks.css'
-
-        end
-
-        def compile_file src, dst
-
-          FileUtils.mkdir_p dst.parent
-          Compass.compiler.compile src.to_s, dst.to_s
+          FileUtils.mkdir_p product_path.parent
+          Compass.compiler.compile source_path.to_s, product_path.to_s
 
         end
 
