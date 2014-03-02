@@ -9,10 +9,14 @@ module WebBlocks
       long_desc bower_registry_desc
 
       def bower_registry
+
+        prepare_blocks!
+
         bower_manager.registry.components.each do |name,path|
           say name, :bold
           say "  #{path}", :green
         end
+
       end
 
     end

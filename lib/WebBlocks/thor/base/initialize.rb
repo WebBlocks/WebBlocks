@@ -103,7 +103,6 @@ module WebBlocks
 
         unless File.exists? @blockfile_path
           @blockfile_path = nil
-          log.warn('INIT') { "Running without Blockfile -- does not exist at #{@blockfile_path}" }
         end
 
       end

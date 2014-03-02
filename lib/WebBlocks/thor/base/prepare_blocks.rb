@@ -98,6 +98,10 @@ module WebBlocks
 
           end
 
+        else
+
+          log.warn('INIT') { "Running without Blockfile -- does not exist" }
+
         end
 
       end
@@ -123,14 +127,12 @@ module WebBlocks
 
           if delimiter
             root.include *route
-            puts route.to_json
             route = []
           end
 
         end
 
         root.include *route if route.length > 0
-        puts route.to_json
 
       end
 
