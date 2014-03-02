@@ -83,8 +83,16 @@ module WebBlocks
       def load_blockfile! log
 
         log.debug do
+
           framework.instance_eval File.read blockfile_path
+
+          own_name = bower_manager.registry.name
+          if root.has_child? own_name
+            root.children[own_name].set :required, true
+          end
+
           "Loaded #{blockfile_path}"
+
         end
 
       end

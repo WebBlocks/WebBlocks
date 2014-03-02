@@ -51,7 +51,7 @@ include 'efx', 'driver', 'toggle'
 # This defines an 'src' block intended to for application-specific sources.
 #
 
-block 'src', :path => Pathname.new(__FILE__).parent + 'src' do
+block 'WebBlocks', :path => Pathname.new(__FILE__).parent + 'src' do
 
   block 'config', :path => 'config' do
 
@@ -65,5 +65,3 @@ block 'src', :path => Pathname.new(__FILE__).parent + 'src' do
   end
 
 end
-
-include 'src'
