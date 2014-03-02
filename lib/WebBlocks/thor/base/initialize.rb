@@ -15,10 +15,15 @@ module WebBlocks
       attr_reader :log
       attr_reader :root
 
-      class_option :blockfile,
+      class_option :base_path,
                    :type => :string,
                    :default => nil,
-                   :desc => 'Location of Blockfile.rb'
+                   :desc => 'Path to workspace'
+
+      class_option :blockfile_path,
+                   :type => :string,
+                   :default => nil,
+                   :desc => 'Path to workspace'
 
       def initialize args = [], options = {}, config = {}
 
@@ -42,49 +47,64 @@ module WebBlocks
 
       def initialize_paths!
 
-        initialize_paths_from_resolved! unless initialize_paths_from_options!
+        initialize_base_path_from_resolved! unless initialize_base_path_from_options!
+        initialize_bowerfile_path!
+        initialize_blockfile_path!
 
-        unless File.exists? blockfile_path
-          log.fatal('INIT') { "Blockfile does not exist at #{blockfile_path}" }
+      end
+
+      def initialize_base_path_from_options!
+
+        if self.options.base_path
+          @base_path = Pathname.new(Dir.pwd) + self.options.base_path
+          true
+        else
+          false
+        end
+
+      end
+
+      def initialize_base_path_from_resolved! path = nil
+
+        path = Pathname.new(Dir.pwd) unless path
+
+        if File.exists? path + 'bower.json'
+          @base_path = path
+          return true
+        end
+
+        if path.to_s == '/'
+          log.fatal('INIT') { 'Workspace could not be resolved' }
           exit 1
         end
 
-        unless File.exists? bowerfile_path
+        initialize_base_path_from_resolved! path.parent
+
+      end
+
+      def initialize_bowerfile_path!
+
+        @bowerfile_path = base_path + 'bower.json'
+
+        unless File.exists? @bowerfile_path
           log.fatal('INIT') { "bower.json does not exist at #{bowerfile_path}" }
           exit 1
         end
 
       end
 
-      def initialize_paths_from_options!
+      def initialize_blockfile_path!
 
-        return false unless self.options.blockfile
-
-        @blockfile_path = Pathname.new(Dir.pwd) + self.options.blockfile
-
-        @base_path = @blockfile_path.parent
-        @bowerfile_path = @base_path + 'bower.json'
-
-      end
-
-      def initialize_paths_from_resolved!
-
-
-        path = Pathname.new(Dir.pwd) unless path
-
-        if File.exists? path + 'Blockfile.rb'
-          @base_path = path
-          @blockfile_path = path + 'Blockfile.rb'
-          @bowerfile_path = @base_path + 'bower.json'
-          return true
+        if self.options.blockfile_path
+          @blockfile_path = Pathname.new(Dir.pwd) + self.options.blockfile_path
+        else
+          @blockfile_path = base_path + 'Blockfile.rb'
         end
 
-        if path.to_s == '/'
-          log.fatal('INIT') { 'Blockfile could not be resolved' }
+        unless File.exists? blockfile_path
+          log.fatal('INIT') { "Blockfile does not exist at #{blockfile_path}" }
           exit 1
         end
-
-        initialize_path! path.parent
 
       end
 
