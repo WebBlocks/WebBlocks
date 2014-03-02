@@ -16,14 +16,14 @@
 # in others, it may be advantageous simply to download a build product.
 #
 
-# Adding a custom block based on the download of jQuery as specified by bower.json
-block 'jquery-build', :path => 'bower_components/jquery-build' do
-  js_file 'index.js'
+# Adding a jQuery block as jQuery does not include a Blockfile.rb defining it
+block 'jquery', :path => 'bower_components/jquery/dist' do
+  js_file 'jquery.js'
 end
 
-# Adding a dependency on the jquery-build block for efx to include jquery if including efx
+# Adding a dependency on the jquery block for efx to include jquery if including efx
 block 'efx' do
-  dependency framework.route 'jquery-build'
+  dependency framework.route 'jquery'
 end
 
 #
