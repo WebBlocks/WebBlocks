@@ -11,17 +11,10 @@
 #
 # CUSTOM BLOCK DEFINITIONS
 #
-# Ideally, frameworks and tools should include Blockfile.rb; however, this will not always be the case. In some cases,
-# frameworks may not explicitly support WebBlocks (even though, through this syntax, WebBlocks can support them), and,
-# in others, it may be advantageous simply to download a build product.
+# In some cases, the existing definitions do not behave as desired, so reopen and modify accordingly.
 #
 
-# Adding a jQuery block as jQuery does not include a Blockfile.rb defining it
-block 'jquery', :path => 'bower_components/jquery/dist' do
-  js_file 'jquery.js'
-end
-
-# Adding a dependency on the jquery block for efx to include jquery if including efx
+# The efx block does not enforce a dependency on jQuery so add that here.
 block 'efx' do
   dependency framework.route 'jquery'
 end
