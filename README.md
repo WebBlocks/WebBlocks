@@ -4,7 +4,7 @@ WebBlocks is package, configuration and dependency manager for web assets (SCSS,
 
 ## Status
 
-[![Code Climate](https://codeclimate.com/github/WebBlocks/WebBlocks.png)](https://codeclimate.com/github/WebBlocks/WebBlocks) [![Build Status](https://travis-ci.org/WebBlocks/WebBlocks.png?branch=master)](https://travis-ci.org/WebBlocks/WebBlocks) [![Coverage Status](https://coveralls.io/repos/WebBlocks/WebBlocks/badge.png?branch=master)](https://coveralls.io/r/WebBlocks/WebBlocks?branch=master) [![Dependency Status](https://gemnasium.com/WebBlocks/WebBlocks.png)](https://gemnasium.com/WebBlocks/WebBlocks)
+[![Gem Version](https://badge.fury.io/rb/web_blocks.png)](http://badge.fury.io/rb/web_blocks) [![Dependency Status](https://gemnasium.com/WebBlocks/WebBlocks.png)](https://gemnasium.com/WebBlocks/WebBlocks) [![Code Climate](https://codeclimate.com/github/WebBlocks/WebBlocks.png)](https://codeclimate.com/github/WebBlocks/WebBlocks) [![Build Status](https://travis-ci.org/WebBlocks/WebBlocks.png?branch=master)](https://travis-ci.org/WebBlocks/WebBlocks) [![Coverage Status](https://coveralls.io/repos/WebBlocks/WebBlocks/badge.png?branch=master)](https://coveralls.io/r/WebBlocks/WebBlocks?branch=master)
 
 This repository contains the code base for WebBlocks 2.0, which is currently **under development** and **not intended for use at this time**. For those interested in using WebBlocks today, please see WebBlocks 1 under the [ucla/WebBlocks](https://github.com/ucla/WebBlocks) repository.
 
