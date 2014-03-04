@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sass-css-importer'
   spec.add_dependency 'fork'
   spec.add_dependency 'fssm'
+  spec.add_dependency 'yui-compressor'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'

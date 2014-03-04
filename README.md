@@ -24,6 +24,14 @@ WebBlocks is built on top of a number of outstanding open source platforms and p
 
 **NOTE** Assuming installation in one of the ways described as follows, this documentation uses `blocks` as a shell command; in cases where it's installed locally by bundle rather than globally, it may be necessary to use `bundle exec blocks` instead.
 
+### Pre-requisites
+
+The following are required:
+
+* Ruby, RubyGems and Budler
+* Node.js and NPM
+* Java 1.4+ (only for compression)
+
 ### Download
 
 #### From Source
