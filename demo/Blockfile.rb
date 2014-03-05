@@ -9,15 +9,13 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 #
-# CUSTOM BLOCK DEFINITIONS
-#
-# In some cases, the existing definitions do not behave as desired, so reopen and modify accordingly.
+# BUILD SETTINGS
 #
 
-# The efx block does not enforce a dependency on jQuery so add that here.
-block 'efx' do
-  dependency framework.route 'jquery'
-end
+# Set where to build explicitly:
+#   set :build_path, 'build'
+
+
 
 #
 # BLOCK INCLUSIONS
@@ -35,6 +33,21 @@ include 'efx', 'driver', 'toggle'
 # also valid would be either of these to include all efx drivers:
 #   include 'efx', 'driver'
 #   include 'efx'
+
+
+
+
+#
+# CUSTOM BLOCK DEFINITIONS
+#
+# In some cases, the existing definitions do not behave as desired, so reopen and modify accordingly.
+#
+
+# The efx block does not enforce a dependency on jQuery so add that here.
+block 'efx' do
+  dependency framework.route 'jquery'
+end
+
 
 
 

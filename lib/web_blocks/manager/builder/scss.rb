@@ -38,7 +38,7 @@ module WebBlocks
 
           super do |build_path|
 
-            css_build_path = build_path + task.root.get(:css_build_dir)
+            css_build_path = build_path
             FileUtils.mkdir_p css_build_path
 
             [compile_strategy, optimize_strategy].each do |strategy|

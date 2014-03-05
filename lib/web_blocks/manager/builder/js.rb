@@ -35,7 +35,7 @@ module WebBlocks
 
           super do |build_path|
 
-            js_build_path = build_path + task.root.get(:js_build_dir)
+            js_build_path = build_path
             FileUtils.mkdir_p js_build_path
 
             [link_strategy, optimize_strategy].each do |strategy|

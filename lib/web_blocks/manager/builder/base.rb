@@ -21,7 +21,7 @@ module WebBlocks
 
         def save!
 
-          yield task.base_path + task.root.get(:build_dir) if block_given?
+          yield task.base_path + task.root.get(:build_path) if block_given?
 
         end
 

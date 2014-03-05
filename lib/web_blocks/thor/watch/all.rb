@@ -33,6 +33,7 @@ module WebBlocks
 
           if relink_needed
             root.remove_all_children
+            initialize_root!
             prepare_blocks!
           end
 

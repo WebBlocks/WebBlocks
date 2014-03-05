@@ -22,6 +22,11 @@ module WebBlocks
                    :default => nil,
                    :desc => 'Paths to explicitly include'
 
+      class_option :build_path,
+                   :type => :string,
+                   :default => nil,
+                   :desc => 'Path where WebBlocks should build products'
+
       no_commands do
 
         def prepare_blocks!
@@ -51,6 +56,7 @@ module WebBlocks
             load_blockfile! log
             include_own_routes! log
             include_routes_from_command_line! log if self.options.include
+            set_build_path_from_command_line!
 
           end
 
@@ -147,6 +153,12 @@ module WebBlocks
         end
 
         root.include *route if route.length > 0
+
+      end
+
+      def set_build_path_from_command_line!
+
+        root.set :build_path, self.options.build_path if self.options.build_path
 
       end
 

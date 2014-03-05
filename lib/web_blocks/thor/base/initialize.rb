@@ -134,9 +134,7 @@ the APIs ad internals before release.
       def initialize_root!
 
         @root = framework do
-          set :build_dir, 'build'
-          set :css_build_dir, 'css'
-          set :js_build_dir, 'js'
+          set :build_path, 'build'
         end
 
       end
