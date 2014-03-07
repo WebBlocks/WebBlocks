@@ -269,7 +269,7 @@ blocks inspect dependency_order --type=scss
 
 ### Defining Components
 
-Blocks are the fundamental constituents of WebBlocks, defined as bower components. Consequently, `bower.json` must define and name and version for the build you're going to create. The name is important in that it defines the block that WebBlocks will load by default when compiling (although others may be included as dependencies or explicitly - more on this later):
+Blocks are the fundamental constituents of WebBlocks, defined as bower components. Consequently, `bower.json` must define a name and version for the build you're going to create. The name is important in that it defines the block that WebBlocks will load by default when compiling (although others may be included as dependencies or explicitly - more on this later):
 
 ```json
 {
