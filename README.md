@@ -48,13 +48,25 @@ bundle
 
 #### As Gem
 
-Add the following to `Gemfile` (creating it if it does not exist):
+To install the latest dev snapshot from RubyGems:
 
 ```
-gem 'WebBlocks', :git => 'https://github.com/WebBlocks/WebBlocks.git'
+gem install web_blocks --pre
 ```
 
-Install it as a Gemfile dependency:
+Or add it to your `Gemfile` (creating it if it doesn't exist):
+
+```
+gem 'web_blocks'
+```
+
+Alternatively, to get the bleeding edge, you may specify the Git repository for sources:
+
+```
+gem 'web_blocks', :git => 'https://github.com/WebBlocks/WebBlocks.git'
+```
+
+Once added to your `Gemfile`, run Bundler to install it:
 
 ```
 bundle
