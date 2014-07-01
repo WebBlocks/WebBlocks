@@ -324,7 +324,7 @@ $ blocks inspect dependency_order
 /Users/ebollens/Sites/test/bower_components/WebBlocks-visibility/src/media-query/_hide.scss
 ```
 
-WebBlocks has linked all WebBlocks-visibility constituents, as well as its requites - namely WebBlocks-breakpoint (which we did not specify but was rather specified in the WebBlocks-visibility [Blockfile.rb](https://github.com/WebBlocks/block-visibility/blob/master/Blockfile.rb) and [bower.json](https://github.com/WebBlocks/block-visibility/blob/master/bower.json) files).
+WebBlocks has linked all WebBlocks-visibility constituents, as well as its requisites - namely WebBlocks-breakpoint (which we did not specify but was rather specified in the WebBlocks-visibility [Blockfile.rb](https://github.com/WebBlocks/block-visibility/blob/master/Blockfile.rb) and [bower.json](https://github.com/WebBlocks/block-visibility/blob/master/bower.json) files).
 
 You can build it as:
 
@@ -367,7 +367,7 @@ framework (Framework)
     _variables.scss (ScssFile)
 ```
 
-Anything designated as a block may be specified as an `include`. Returning the `Blockfile.rb`, one could tighten the block inclusion scope be replacing its current content with something like:
+Anything designated as a block may be specified as an `include`. Returning the `Blockfile.rb`, one could tighten the block inclusion scope by replacing its current content with something like:
 
 ```ruby
 include 'WebBlocks-visibility', 'accessible'
