@@ -18,7 +18,7 @@ WebBlocks is managed by [Eric Bollens](https://github.com/ebollens) as part of a
 
 WebBlocks is a product of its contributors, including those who have contributed code, submitted bugs or even simply participated in the dialogue.
 
-WebBlocks is built on top of a number of outstanding open source platforms and packages including [Ruby](http://www.ruby-lang.org/), [RubyGems](http://rubygems.org/) [Bundler](http://gembundler.com/), [Node.js](http://nodejs.org/), [npm](https://npmjs.org/), [Saas](http://sass-lang.com/), [Compass](http://compass-style.org/), [Thor](http://whatisthor.com/), [Rake](http://rake.rubyforge.org/), [File System State Monitor](https://github.com/ttilley/fssm), [sass-css-importer](https://github.com/chriseppstein/sass-css-importer), [ruby-bower](https://github.com/kaeff/ruby-bower), [fork](https://github.com/apeiros/fork) and [extend_method](https://github.com/ebollens/ruby-extend_method). A sincere thanks is extended to the authors of all these fine tools.
+WebBlocks is built on top of a number of outstanding open source platforms and packages including [Ruby](http://www.ruby-lang.org/), [RubyGems](http://rubygems.org/), [Bundler](http://gembundler.com/), [Node.js](http://nodejs.org/), [npm](https://npmjs.org/), [Saas](http://sass-lang.com/), [Compass](http://compass-style.org/), [Thor](http://whatisthor.com/), [Rake](http://rake.rubyforge.org/), [File System State Monitor](https://github.com/ttilley/fssm), [sass-css-importer](https://github.com/chriseppstein/sass-css-importer), [ruby-bower](https://github.com/kaeff/ruby-bower), [fork](https://github.com/apeiros/fork) and [extend_method](https://github.com/ebollens/ruby-extend_method). A sincere thanks is extended to the authors of all these fine tools.
 
 ## Installation
 
