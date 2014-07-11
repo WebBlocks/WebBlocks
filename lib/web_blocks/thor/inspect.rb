@@ -8,4 +8,4 @@ module WebBlocks
   end
 end
 
-Dir.glob(Pathname.new(__FILE__).parent.realpath + "inspect/**/*.rb").each { |r| require r }
+Dir.glob(Pathname.new(__FILE__).parent.realpath + "inspect/*.rb").each { |r| require r }
