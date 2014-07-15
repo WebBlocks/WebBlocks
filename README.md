@@ -18,7 +18,7 @@ WebBlocks is managed by [Eric Bollens](https://github.com/ebollens) as part of a
 
 WebBlocks is a product of its contributors, including those who have contributed code, submitted bugs or even simply participated in the dialogue.
 
-WebBlocks is built on top of a number of outstanding open source platforms and packages including [Ruby](http://www.ruby-lang.org/), [RubyGems](http://rubygems.org/) [Bundler](http://gembundler.com/), [Node.js](http://nodejs.org/), [npm](https://npmjs.org/), [Saas](http://sass-lang.com/), [Compass](http://compass-style.org/), [Thor](http://whatisthor.com/), [Rake](http://rake.rubyforge.org/), [File System State Monitor](https://github.com/ttilley/fssm), [sass-css-importer](https://github.com/chriseppstein/sass-css-importer), [ruby-bower](https://github.com/kaeff/ruby-bower), [fork](https://github.com/apeiros/fork) and [extend_method](https://github.com/ebollens/ruby-extend_method). A sincere thanks is extended to the authors of all these fine tools.
+WebBlocks is built on top of a number of outstanding open source platforms and packages including [Ruby](http://www.ruby-lang.org/), [RubyGems](http://rubygems.org/), [Bundler](http://gembundler.com/), [Node.js](http://nodejs.org/), [npm](https://npmjs.org/), [Saas](http://sass-lang.com/), [Compass](http://compass-style.org/), [Thor](http://whatisthor.com/), [Rake](http://rake.rubyforge.org/), [File System State Monitor](https://github.com/ttilley/fssm), [sass-css-importer](https://github.com/chriseppstein/sass-css-importer), [ruby-bower](https://github.com/kaeff/ruby-bower), [fork](https://github.com/apeiros/fork) and [extend_method](https://github.com/ebollens/ruby-extend_method). A sincere thanks is extended to the authors of all these fine tools.
 
 ## Installation
 
@@ -48,13 +48,25 @@ bundle
 
 #### As Gem
 
-Add the following to `Gemfile` (creating it if it does not exist):
+To install the latest dev snapshot from RubyGems:
 
 ```
-gem 'WebBlocks', :git => 'https://github.com/WebBlocks/WebBlocks.git'
+gem install web_blocks --pre
 ```
 
-Install it as a Gemfile dependency:
+Or add it to your `Gemfile` (creating it if it doesn't exist):
+
+```
+gem 'web_blocks'
+```
+
+Alternatively, to get the bleeding edge, you may specify the Git repository for sources:
+
+```
+gem 'web_blocks', :git => 'https://github.com/WebBlocks/WebBlocks.git'
+```
+
+Once added to your `Gemfile`, run Bundler to install it:
 
 ```
 bundle
@@ -312,7 +324,7 @@ $ blocks inspect dependency_order
 /Users/ebollens/Sites/test/bower_components/WebBlocks-visibility/src/media-query/_hide.scss
 ```
 
-WebBlocks has linked all WebBlocks-visibility constituents, as well as its requites - namely WebBlocks-breakpoint (which we did not specify but was rather specified in the WebBlocks-visibility [Blockfile.rb](https://github.com/WebBlocks/block-visibility/blob/master/Blockfile.rb) and [bower.json](https://github.com/WebBlocks/block-visibility/blob/master/bower.json) files).
+WebBlocks has linked all WebBlocks-visibility constituents, as well as its requisites - namely WebBlocks-breakpoint (which we did not specify but was rather specified in the WebBlocks-visibility [Blockfile.rb](https://github.com/WebBlocks/block-visibility/blob/master/Blockfile.rb) and [bower.json](https://github.com/WebBlocks/block-visibility/blob/master/bower.json) files).
 
 You can build it as:
 
@@ -355,7 +367,7 @@ framework (Framework)
     _variables.scss (ScssFile)
 ```
 
-Anything designated as a block may be specified as an `include`. Returning the `Blockfile.rb`, one could tighten the block inclusion scope be replacing its current content with something like:
+Anything designated as a block may be specified as an `include`. Returning the `Blockfile.rb`, one could tighten the block inclusion scope by replacing its current content with something like:
 
 ```ruby
 include 'WebBlocks-visibility', 'accessible'

@@ -49,7 +49,7 @@ module WebBlocks
 You are using a pre-release DEVELOPMENT SNAPSHOT of WebBlocks.
 This software should not be considered stable, and users are asked
 to be mindful of the fact that there may be significant changes to
-the APIs ad internals before release.
+the APIs and internals before release.
 
 = = = = = = = = = = = = W A R N I N G = = = = = = = = = = = = = = =\n\n"
         end
