@@ -92,7 +92,7 @@ the APIs and internals before release.
         end
 
         if path.to_s == '/'
-          log.fatal('INIT') { 'Workspace could not be resolved' }
+          log.fatal('INIT') { 'Workspace could not be resolved -- could not find bower.json' }
           exit 1
         end
 
