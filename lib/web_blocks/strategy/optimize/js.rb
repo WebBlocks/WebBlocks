@@ -1,3 +1,4 @@
+require 'facets/kernel/silence'
 require 'web_blocks/strategy/optimize/base'
 require 'yui/compressor'
 
@@ -22,8 +23,22 @@ module WebBlocks
 
             File.open task.base_path + product_path, 'w' do |product|
               File.open task.base_path + source_path, 'r' do |source|
-                compressor = YUI::JavaScriptCompressor.new
-                product.write compressor.compress source
+                if source.size > 0
+                  begin
+                    compressor = YUI::JavaScriptCompressor.new
+                    silently do
+                      product.write compressor.compress source
+                    end
+                  rescue YUI::Compressor::RuntimeError => e
+                    log.warn { "YUI compressor returned error -- skipping" }
+                    FileUtils.rm task.base_path + product_path
+                  rescue => e
+                    log.warn { "Unexpected error encountered -- skipping\n#{e}" }
+                    FileUtils.rm task.base_path + product_path
+                  end
+                else
+                  log.warn { "No JS content -- skipping" }
+                end
               end
             end
 
