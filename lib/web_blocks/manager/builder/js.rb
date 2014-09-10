@@ -39,11 +39,15 @@ module WebBlocks
             FileUtils.mkdir_p js_build_path
 
             [link_strategy, optimize_strategy].each do |strategy|
-              log.info do
-                source_path = strategy.product_path
-                product_path = js_build_path + source_path.basename
-                FileUtils.copy source_path, product_path
-                "Saved JS build #{product_path}"
+              begin
+                log.info do
+                  source_path = strategy.product_path
+                  product_path = js_build_path + source_path.basename
+                  FileUtils.copy source_path, product_path
+                  "Saved JS build #{product_path}"
+                end
+              rescue Errno::ENOENT => e
+                # skip because file does not exist
               end
             end
 

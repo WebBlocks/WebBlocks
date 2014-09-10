@@ -42,11 +42,15 @@ module WebBlocks
             FileUtils.mkdir_p css_build_path
 
             [compile_strategy, optimize_strategy].each do |strategy|
-              log.info do
-                source_path = strategy.product_path
-                product_path = css_build_path + source_path.basename
-                FileUtils.copy source_path, product_path
-                "Saved CSS build #{product_path}"
+              begin
+                log.info do
+                  source_path = strategy.product_path
+                  product_path = css_build_path + source_path.basename
+                  FileUtils.copy source_path, product_path
+                  "Saved CSS build #{product_path}"
+                end
+              rescue Errno::ENOENT => e
+                # skip because file does not exist
               end
             end
 
