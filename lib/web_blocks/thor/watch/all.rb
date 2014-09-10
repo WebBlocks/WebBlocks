@@ -47,7 +47,15 @@ module WebBlocks
 
           rescue ::TSort::Cyclic => e
 
-            log.error { "Build failed -- Cyclical dependencies detected" }
+            log.error("Watch"){ "Build failed -- Cyclical dependencies detected" }
+
+          rescue ::Sass::SyntaxError => e
+
+            log.error("Watch"){ "Build failed -- Sass syntax error: #{e}" }
+
+          rescue => e
+
+            log.error("Watch"){ "Build failed -- #{e.class.name}: #{e}" }
 
           end
 
