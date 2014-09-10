@@ -10,6 +10,7 @@ module WebBlocks
       description = "Watch and rebuild all assets"
       desc "all", description
       long_desc description
+      method_option :build, :type => :boolean, :default => false, :desc => 'Build on starting watch'
 
       def all
 
@@ -50,6 +51,14 @@ module WebBlocks
 
           end
 
+        end
+
+        if options.build
+          prepare_blocks!
+          jobs = WebBlocks::Manager::ParallelBuilder.new self
+          jobs.start :scss
+          jobs.start :js
+          jobs.save_when_done!
         end
 
         monitor = FSSM::Monitor.new
