@@ -103,7 +103,7 @@ Alternatively, this can be done by defining a `package.json`:
 ```json
 {
     "dependencies": {
-        "bower":">=1.2.8"
+        "bower":">=1.3.8"
     }
 }
 ```

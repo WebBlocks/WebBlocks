@@ -41,9 +41,9 @@ module WebBlocks
                 clean_bower_registry! log
               end
 
-            rescue ::ExecJS::ProgramError => e
+            rescue ExecJS::ProgramError => e
 
-              if e.message.match "Cannot find module 'bower'"
+              if e.message.match "Cannot find module 'bower'" or e.message.match "Cannot read property 'cache'"
                 log.fatal { 'Bower must be installed -- try `npm install bower\'' }
                 exit 1
               else
