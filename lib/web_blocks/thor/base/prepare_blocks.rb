@@ -69,7 +69,7 @@ module WebBlocks
       def install_bower_components! log
 
         log.debug do
-          bower_manager.clean_update!
+          bower_manager.clean_install!
           bower_manager.installed? ? 'Reloaded bower components and cleaning component registry' : 'Installed bower components'
         end
 
