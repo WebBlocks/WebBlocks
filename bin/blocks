@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-require 'bundler'
-Bundler.setup(:default)
-
 require 'web_blocks/thor/runner'
 
 ::WebBlocks::Thor::Runner.start
