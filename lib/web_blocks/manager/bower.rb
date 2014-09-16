@@ -38,15 +38,15 @@ module WebBlocks
         ::Bower.context.call "bower.commands.prune"
       end
 
-      def update!
-        ::Bower.context.call "bower.commands.update"
+      def install!
+        ::Bower.context.call "bower.commands.install"
       end
 
-      def clean_update!
+      def clean_install!
         clean_registry_cache!
         clean_components_cache!
         prune_components!
-        update!
+        install!
       end
 
       def compute_registry
