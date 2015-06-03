@@ -451,6 +451,8 @@ blocks watch
 
 Any time that a bower component, blockfile or source file changes, it will rebuild the necessary components.
 
+**NOTE: The `watch` command will not work properly under inotify (Linux) for modifications to `Blockfile.rb`.**
+
 ### Using Depedencies to Control Load Order
 
 The WebBlocks-breakpoints module provides a set of variables that it will define unless they're already defined. This enables WebBlocks-visibility's breakpoint-based classes. Suppose, however, that we wish to inject our own variables.

@@ -25,17 +25,45 @@ module WebBlocks
         triggers << base_path + '.blocks/cache/bower/registry.yaml'
         triggers << base_path + 'bower_components/*/Blockfile.rb'
 
+        monitor = nil
+
         handler = Proc.new do |base, relative|
 
+          rerun_monitor = false
           changed_file = Pathname.new(base) + relative
           relink_needed = changed_file.to_s.match(/Blockfile.rb$/)
 
           log.info("Watch"){ "Detected change to #{changed_file}" }
 
           if relink_needed
+
             root.remove_all_children
             initialize_root!
             prepare_blocks!
+
+            # This is a super hacky way to detach all handlers for FSSM.monitor and then initialize a new FSSM.monitor
+            # with the right triggers based on the latest changes. This does NOT work with inotify.
+            if monitor.instance_variable_get("@backend").is_a?(FSSM::Backends::RBFSEvent) or monitor.instance_variable_get("@backend").is_a?(FSSM::Backends::Polling)
+
+              monitor.instance_variable_get("@backend").instance_variable_set("@handlers", [])
+
+              triggers = root.adjacency_list.keys.map(){|f| f.resolved_path.to_s }
+              triggers << base_path + 'Blockfile.rb'
+              triggers << base_path + '.blocks/cache/bower/registry.yaml'
+              triggers << base_path + 'bower_components/*/Blockfile.rb'
+
+              monitor = FSSM::Monitor.new
+              monitor.path @base_path do
+                glob triggers
+                update &handler
+                delete &handler
+                create &handler
+              end
+
+              rerun_monitor = true
+
+            end
+
           end
 
           begin
@@ -57,6 +85,10 @@ module WebBlocks
 
             log.error("Watch"){ "Build failed -- #{e.class.name}: #{e}" }
 
+          end
+
+          if rerun_monitor
+            monitor.run
           end
 
         end
