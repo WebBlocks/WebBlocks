@@ -302,6 +302,16 @@ Further, in this example, suppose the goal is to use the `WebBlocks-visibility` 
 }
 ```
 
+While blocks should carefully define their dependencies to be as accepting as possible, two blocks will sometimes require completely different versions of the same dependency. This can be resolved by manually specifying a resolution in `bower.json`:
+
+```json
+{
+  "resolutions": {
+    "jquery": "~2.1.0"
+  }
+}
+```
+
 ### Including a Block
 
 While packages define blocks to include, generally they will not be included unless specified explicitly.
