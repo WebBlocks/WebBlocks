@@ -38,6 +38,10 @@ module WebBlocks
         ::Bower.context.call "bower.commands.prune"
       end
 
+      def clean_components!
+        FileUtils.rm_rf @components_path
+      end
+
       def install!
         ::Bower.context.call "bower.commands.install"
       end

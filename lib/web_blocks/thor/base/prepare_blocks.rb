@@ -35,6 +35,10 @@ module WebBlocks
 
             begin
 
+              if self.options.reload_bower
+                clean_bower_components! log
+              end
+
               if !bower_manager.installed? or self.options.reload_bower
                 install_bower_components! log
               elsif self.options.reload_registry
@@ -71,6 +75,15 @@ module WebBlocks
         log.debug do
           bower_manager.clean_install!
           bower_manager.installed? ? 'Reloaded bower components and cleaning component registry' : 'Installed bower components'
+        end
+
+      end
+
+      def clean_bower_components! log
+
+        log.debug do
+          bower_manager.clean_components!
+          'Cleaned bower components'
         end
 
       end
