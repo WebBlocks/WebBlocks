@@ -1,8 +1,8 @@
+require 'web_blocks/facade/block'
+require 'web_blocks/facade/js_file'
+require 'web_blocks/facade/scss_file'
 require 'web_blocks/framework'
 require 'web_blocks/structure/tree/node'
-require 'web_blocks/structure/block'
-require 'web_blocks/structure/scss_file'
-require 'web_blocks/structure/js_file'
 require 'web_blocks/structure/attribute/dependency'
 require 'web_blocks/structure/attribute/loose_dependency'
 require 'web_blocks/structure/attribute/reverse_dependency'
@@ -12,7 +12,12 @@ module WebBlocks
   module Structure
     class Block < ::WebBlocks::Structure::Tree::Node
 
+      include WebBlocks::Facade::Block
+      include WebBlocks::Facade::ScssFile
+      include WebBlocks::Facade::JsFile
+
       include WebBlocks::Framework
+
       include WebBlocks::Structure::Attribute::Dependency
       include WebBlocks::Structure::Attribute::LooseDependency
       include WebBlocks::Structure::Attribute::ReverseDependency
@@ -29,18 +34,6 @@ module WebBlocks
         else
           Pathname.new(path)
         end
-      end
-
-      def block name, attributes = {}, &block
-        child_eval ::WebBlocks::Structure::Block, name, attributes, block
-      end
-
-      def scss_file name, attributes = {}, &block
-        child_eval ::WebBlocks::Structure::ScssFile, name, attributes, block
-      end
-
-      def js_file name, attributes = {}, &block
-        child_eval ::WebBlocks::Structure::JsFile, name, attributes, block
       end
 
       def files
