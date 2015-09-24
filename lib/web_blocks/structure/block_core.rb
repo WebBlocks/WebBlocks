@@ -46,6 +46,17 @@ module WebBlocks
         end
       end
 
+      def isolated_facade_registration_scope &block
+        facade_map = @facade_map
+        begin
+          instance_eval &block
+          @facade_map = facade_map
+        rescue => e
+          @facade_map = facade_map
+          raise e
+        end
+      end
+
       def method_missing name, *arguments, &block
         handler_class = resolve_facade(name)
         handler_class = resolve_class_facade(name) unless handler_class
