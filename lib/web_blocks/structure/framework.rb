@@ -1,3 +1,4 @@
+require 'web_blocks/facade/external_component_block'
 require 'web_blocks/structure/block'
 require 'web_blocks/structure/raw_file'
 require 'web_blocks/support/tsort/hash'
@@ -5,6 +6,8 @@ require 'web_blocks/support/tsort/hash'
 module WebBlocks
   module Structure
     class Framework < Block
+
+      include WebBlocks::Facade::ExternalComponentBlock
 
       set :required, true
 
