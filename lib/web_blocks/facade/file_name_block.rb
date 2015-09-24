@@ -27,6 +27,7 @@ module WebBlocks
           end
           block_entity.instance_eval &block if block_was_given
         end
+
       end
 
     end

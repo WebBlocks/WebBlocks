@@ -17,10 +17,12 @@ module WebBlocks
         resolved_block_path = resolved_path + path
         blockfile_path =  resolved_block_path + "Blockfile.rb"
         raise "Undefined blockfile for #{path}" unless File.exists?(blockfile_path)
-        block name do
-          set :base_path, resolved_block_path
+        isolated_facade_registration_scope do
+          block name do
+            set :base_path, resolved_block_path
+          end
+          instance_eval File.read(blockfile_path)
         end
-        instance_eval File.read(blockfile_path)
       end
 
       def include *args
