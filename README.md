@@ -724,6 +724,11 @@ block 'top-level' do
 end
 ```
 
+### Available Facades
+
+* **WebBlocks::Facade::FileNameBlock** takes the name passed to it and finds CSS, JS and SCSS files by the same name and loading them into a block by that name.
+* **WebBlocks::Facade::RecursiveFileNamesBlock** takes the name passed to it and finds all directories, making sub-blocks of them and calling this recursively, while also finding all CSS, JS and SCSS files by the same name and loading them into a block by that name.
+
 ### Learn More
 
 See the `demo` folder for a example setup.

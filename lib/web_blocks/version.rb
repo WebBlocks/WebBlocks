@@ -1,3 +1,3 @@
 module WebBlocks
-  VERSION = "2.0.4.dev"
+  VERSION = "2.0.5.alpha"
 end
