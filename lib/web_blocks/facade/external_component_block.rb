@@ -1,16 +1,17 @@
+require 'web_blocks/facade/base'
 require 'web_blocks/structure/block'
 
 module WebBlocks
   module Facade
-    module ExternalComponentBlock
+    class ExternalComponentBlock < Base
 
-      def external_component_block name, attributes = {}, &block
+      def handle name, attributes = {}, &block
         if attributes.has_key?(:path)
           attributes[:path] = "bower_components/#{name}/#{attributes[:path]}"
         else
           attributes[:path] = "bower_components/#{name}"
         end
-        self.block name, attributes, &block
+        context.block name, attributes, &block
       end
 
     end

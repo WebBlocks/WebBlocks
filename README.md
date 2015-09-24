@@ -668,6 +668,62 @@ $ blocks inspect dependency_order
 /Users/ebollens/Sites/test/bower_components/efx/src/driver/toggle.js
 ```
 
+### Modifying the WebBlocks DSL
+
+At any block level, you can register a new facade into the DSL:
+
+```ruby
+block 'efx' do
+
+  register_facade :file_name_block, ::WebBlocks::Facade::FileNameBlock
+
+  file_name_block 'engine', :required => true do
+    loose_dependency framework.route 'jquery'
+  end
+
+end
+```
+
+This registration is available to child nodes as well:
+
+```ruby
+block 'efx' do
+
+  register_facade :file_name_block, ::WebBlocks::Facade::FileNameBlock
+
+  # ..
+
+  block 'driver', :path => 'driver' do
+
+      dependency efx.route 'engine'
+
+      file_name_block 'accordion'
+      file_name_block 'tabs'
+      file_name_block 'toggle'
+
+    end
+
+end
+```
+
+Resolution of the facade occurs by way of closest parent. For example, Ex2 wins over Ex1 for the sub-block:
+
+```ruby
+block 'top-level' do
+
+  register_facade :ex, Ex1
+
+  block 'driver', :path => 'driver' do
+
+    register_facade :ex, Ex2
+
+      ex 'Ex2_is_used_as_handler_here'
+
+    end
+
+end
+```
+
 ### Learn More
 
 See the `demo` folder for a example setup.
