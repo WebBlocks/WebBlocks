@@ -1,11 +1,12 @@
+require 'web_blocks/facade/base'
 require 'web_blocks/structure/scss_file'
 
 module WebBlocks
   module Facade
-    module ScssFile
+    class ScssFile < Base
 
-      def scss_file name, attributes = {}, &block
-        child_eval ::WebBlocks::Structure::ScssFile, name, attributes, block
+      def handle name, attributes = {}, &block
+        context.child_eval ::WebBlocks::Structure::ScssFile, name, attributes, block
       end
 
     end

@@ -7,7 +7,7 @@ module WebBlocks
   module Structure
     class Framework < Block
 
-      include WebBlocks::Facade::ExternalComponentBlock
+      register_facade :external_component_block, WebBlocks::Facade::ExternalComponentBlock
 
       set :required, true
 
@@ -17,10 +17,10 @@ module WebBlocks
         resolved_block_path = resolved_path + path
         blockfile_path =  resolved_block_path + "Blockfile.rb"
         raise "Undefined blockfile for #{path}" unless File.exists?(blockfile_path)
-        instance_eval File.read(blockfile_path)
         block name do
           set :base_path, resolved_block_path
         end
+        instance_eval File.read(blockfile_path)
       end
 
       def include *args

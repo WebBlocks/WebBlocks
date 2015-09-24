@@ -1,11 +1,12 @@
+require 'web_blocks/facade/base'
 require 'web_blocks/structure/block'
 
 module WebBlocks
   module Facade
-    module Block
+    class Block < Base
 
-      def block name, attributes = {}, &block
-        child_eval ::WebBlocks::Structure::Block, name, attributes, block
+      def handle name, attributes = {}, &block
+        context.child_eval ::WebBlocks::Structure::Block, name, attributes, block
       end
 
     end

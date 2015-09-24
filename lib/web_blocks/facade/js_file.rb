@@ -1,11 +1,12 @@
+require 'web_blocks/facade/base'
 require 'web_blocks/structure/js_file'
 
 module WebBlocks
   module Facade
-    module JsFile
+    class JsFile < Base
 
-      def js_file name, attributes = {}, &block
-        child_eval ::WebBlocks::Structure::JsFile, name, attributes, block
+      def handle name, attributes = {}, &block
+        context.child_eval ::WebBlocks::Structure::JsFile, name, attributes, block
       end
 
     end

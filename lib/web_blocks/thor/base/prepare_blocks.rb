@@ -109,7 +109,7 @@ module WebBlocks
                     register :name => name, :path => path
                     "Loaded"
                   end
-                rescue
+                rescue RuntimeError
                   log.warn("#{name}") { "Skipped -- Blockfile.rb does not exist" }
                 end
               end
