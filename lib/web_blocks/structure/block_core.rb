@@ -79,7 +79,9 @@ module WebBlocks
       #
 
       def scoped_base_path
-        if defined?(@scoped_base_path)
+        if defined?(@isolated_from_parent_scoped_base_path)
+          nil
+        elsif defined?(@scoped_base_path)
           @scoped_base_path
         elsif parent
            parent.scoped_base_path
@@ -89,19 +91,24 @@ module WebBlocks
       end
 
       def has_scoped_base_path?
-        defined?(@scoped_base_path) or (parent and parent.has_scoped_base_path?)
+        return false if defined? @isolated_from_parent_scoped_base_path
+        return true if defined? @scoped_base_path
+        return true if (parent and parent.has_scoped_base_path?)
+        return false
       end
 
       def set_scoped_base_path path
         @scoped_base_path = path
       end
 
+      def isolate_subgraph_from_scoped_base_path!
+        @isolated_from_parent_scoped_base_path = true
+      end
+
       def forget_scoped_base_path!
-        if defined?(@scoped_base_path)
-          remove_instance_variable :@scoped_base_path
-        elsif parent
-          parent.forget_scoped_base_path!
-        end
+        remove_instance_variable :@scoped_base_path if defined? @scoped_base_path
+        remove_instance_variable :@isolated_from_parent_scoped_base_path if defined? @isolated_from_parent_scoped_base_path
+        parent.forget_scoped_base_path! if parent
       end
 
       def with_base_path base_path, &block
@@ -119,7 +126,7 @@ module WebBlocks
         if has_scoped_base_path?
           if has? :path
             set :path, "#{scoped_base_path}/#{get :path}"
-            forget_scoped_base_path!
+            isolate_subgraph_from_scoped_base_path!
           end
         end
       end
