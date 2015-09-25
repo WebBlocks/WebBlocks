@@ -31,7 +31,7 @@ module WebBlocks
               ext = segs.pop
               if ext == 'css' or ext == 'js'
                 file_names << segs.join('.')
-              elsif ext = 'scss'
+              elsif ext == 'scss'
                 file_names << segs.join('.').gsub(/^_/, '')
               end
             end
