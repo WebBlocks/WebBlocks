@@ -125,7 +125,8 @@ module WebBlocks
         parent_method parent
         if has_scoped_base_path?
           if has? :path
-            set :path, "#{scoped_base_path}/#{get :path}"
+            path = get :path
+            set :path, "#{scoped_base_path}/#{path}" unless path[0,1] == '/'
             isolate_subgraph_from_scoped_base_path!
           end
         end

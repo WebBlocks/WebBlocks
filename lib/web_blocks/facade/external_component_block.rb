@@ -7,9 +7,9 @@ module WebBlocks
 
       def handle name, attributes = {}, &block
         if attributes.has_key?(:path)
-          attributes[:path] = "bower_components/#{name}/#{attributes[:path]}"
+          attributes[:path] = "#{context.framework.resolved_path}/bower_components/#{name}/#{attributes[:path]}"
         else
-          attributes[:path] = "bower_components/#{name}"
+          attributes[:path] = "#{context.framework.resolved_path}/bower_components/#{name}"
         end
         context.block name, attributes, &block
       end
