@@ -1,3 +1,4 @@
+require 'extend_method'
 require 'web_blocks/framework'
 require 'web_blocks/structure/tree/node'
 require 'web_blocks/structure/attribute/dependency'
@@ -9,12 +10,20 @@ module WebBlocks
   module Structure
     class BlockCore < ::WebBlocks::Structure::Tree::Node
 
+      class << self
+        include ExtendMethod
+      end
+
       include WebBlocks::Framework
 
       include WebBlocks::Structure::Attribute::Dependency
       include WebBlocks::Structure::Attribute::LooseDependency
       include WebBlocks::Structure::Attribute::ReverseDependency
       include WebBlocks::Structure::Attribute::ReverseLooseDependency
+
+      ##
+      # Methods supporting extending the block DSL with facades for non-primitive blocks
+      #
 
       def register_facade name, handler
         @facade_map = {} unless defined? @facade_map
@@ -65,11 +74,63 @@ module WebBlocks
         handler.handle *arguments, &block
       end
 
+      ##
+      # Methods supporting pathing enabled by WebBlocks::Structure::Framework#register
+      #
+
+      def scoped_base_path
+        if defined?(@scoped_base_path)
+          @scoped_base_path
+        elsif parent
+           parent.scoped_base_path
+        else
+          nil
+        end
+      end
+
+      def has_scoped_base_path?
+        defined?(@scoped_base_path) or (parent and parent.has_scoped_base_path?)
+      end
+
+      def set_scoped_base_path path
+        @scoped_base_path = path
+      end
+
+      def forget_scoped_base_path!
+        if defined?(@scoped_base_path)
+          remove_instance_variable :@scoped_base_path
+        elsif parent
+          parent.forget_scoped_base_path!
+        end
+      end
+
+      def with_base_path base_path, &block
+        set_scoped_base_path(base_path)
+        instance_eval &block
+        forget_scoped_base_path!
+      end
+
+      # Extending set_parent method from WebBlocks::Support::Attributes::Container, which is included by way of
+      # inheritance through self.class -> WebBlocks::Structure::Tree::Node -> WebBlocks::Structure::Tree::LeafNode.
+      # This is required for WebBlocks::Structure::Framework#register.
+
+      extend_method :set_parent do |parent|
+        parent_method parent
+        if has_scoped_base_path?
+          if has? :path
+            set :path, "#{scoped_base_path}/#{get :path}"
+            forget_scoped_base_path!
+          end
+        end
+      end
+
+      ##
+      # Methods available for interpreting and manipulating the block
+      #
+
       def resolved_path
         path = attributes.has_key?(:path) ? attributes[:path] : ''
-        if attributes.has_key? :base_path
-          Pathname.new(attributes[:base_path]) + path
-        elsif parent
+        if parent
           parent.resolved_path + path
         else
           Pathname.new(path)
