@@ -1,6 +1,5 @@
 require 'set'
 require 'web_blocks/facade/base'
-require 'web_blocks/facade/file_name_block'
 
 module WebBlocks
   module Facade
