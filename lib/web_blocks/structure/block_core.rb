@@ -1,4 +1,5 @@
 require 'extend_method'
+require 'web_blocks/facade/block'
 require 'web_blocks/framework'
 require 'web_blocks/structure/tree/node'
 require 'web_blocks/structure/attribute/dependency'
@@ -26,7 +27,7 @@ module WebBlocks
       #
 
       def register_facade name, handler
-        @facade_map = {} unless defined? @facade_map
+        @facade_map = {} unless (defined?(@facade_map) and @facade_map)
         @facade_map[name.to_sym] = handler
       end
 
@@ -112,8 +113,20 @@ module WebBlocks
       end
 
       def with_base_path base_path, &block
-        set_scoped_base_path(base_path)
+        set_scoped_base_path base_path
+        klass = Class.new(::WebBlocks::Facade::Block)
+        klass.class_variable_set :@@default_base_path, base_path
+        klass.class_eval do
+          def handle *params, &block
+            subblock = super *params, &block
+            default_base_path = self.class.class_variable_get(:@@default_base_path).to_s
+            subblock.define_singleton_method(:default_base_path){ default_base_path }
+            subblock
+          end
+        end
+        register_facade :block, klass
         instance_eval &block
+        register_facade :block, ::WebBlocks::Facade::Block
         forget_scoped_base_path!
       end
 
@@ -137,12 +150,33 @@ module WebBlocks
       #
 
       def resolved_path
-        path = attributes.has_key?(:path) ? attributes[:path] : ''
-        if parent
-          parent.resolved_path + path
-        else
-          Pathname.new(path)
+
+        parents_except_root = parents
+
+        # we're not going to use the root's path for determining if there's an implicit path
+        root = parents_except_root.pop
+
+        # get the sub-paths
+        subpaths = []
+        parents_except_root.each do |p|
+          subpaths.unshift(p.get(:path)) if p.has?(:path)
         end
+
+        if subpaths.length == 0
+          [self, parents_except_root].flatten.each do |p|
+            if p.respond_to? :default_base_path
+              subpaths.push(p.default_base_path)
+              break
+            end
+          end
+        end
+
+        subpaths.unshift(Pathname.new((root and root.has?(:path)) ? root.get(:path) : '.'))
+
+        subpaths << attributes[:path] if attributes.has_key?(:path)
+
+        subpaths.reduce(:+).realpath
+
       end
 
       def files
