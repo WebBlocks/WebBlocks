@@ -27,6 +27,11 @@ module WebBlocks
                    :default => nil,
                    :desc => 'Path where WebBlocks should build products'
 
+      class_option :env,
+                   :type => :string,
+                   :default => nil,
+                   :desc => 'Name of the environment'
+
       no_commands do
 
         def prepare_blocks!
@@ -62,7 +67,23 @@ module WebBlocks
             include_routes_from_command_line! log if self.options.include
             set_build_path_from_command_line!
 
+            framework.notify :after_prepare_blocks, runner: self, log: log
+
           end
+
+        end
+
+        def reload_blocks! log
+
+          ::WebBlocks::Framework.class_variable_set(:@@framework, ::WebBlocks::Structure::Framework.new('framework'))
+
+          initialize_root!
+
+          load_bower_registry! log
+          load_blockfile! log
+          include_own_routes! log
+          include_routes_from_command_line! log if self.options.include
+          set_build_path_from_command_line!
 
         end
 

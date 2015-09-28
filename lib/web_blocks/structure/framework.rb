@@ -1,4 +1,5 @@
 require 'web_blocks/facade/external_component_block'
+require 'web_blocks/facade/registration_scope'
 require 'web_blocks/structure/block'
 require 'web_blocks/structure/raw_file'
 require 'web_blocks/support/tsort/hash'
@@ -7,21 +8,19 @@ module WebBlocks
   module Structure
     class Framework < Block
 
-      register_facade :external_component_block, WebBlocks::Facade::ExternalComponentBlock
-
       set :required, true
 
-      def register hash
-        name = hash[:name]
-        path = hash[:path]
-        resolved_block_path = resolved_path + path
-        blockfile_path =  resolved_block_path + "Blockfile.rb"
-        raise "Undefined blockfile for #{path}" unless File.exists?(blockfile_path)
-        isolated_facade_registration_scope do
-          with_base_path(resolved_block_path) do
-            instance_eval File.read(blockfile_path)
-          end
-        end
+      # FRAMEWORK DSL
+
+      register_facade :external_component_block, WebBlocks::Facade::ExternalComponentBlock
+      register_facade :registration_scope, WebBlocks::Facade::RegistrationScope
+
+      def after name, &block
+        for_notification "after_#{name}".to_sym, &block
+      end
+
+      def before name, &block
+        for_notification "before_#{name}".to_sym, &block
       end
 
       def include *args
@@ -36,6 +35,43 @@ module WebBlocks
           node.set :required, true
           if node.respond_to? :children
             node.children.values.each { |node_child| nodes << node_child }
+          end
+        end
+      end
+
+      # FRAMEWORK METHODS
+
+      def register hash
+        name = hash[:name]
+        path = hash[:path]
+        resolved_block_path = resolved_path + path
+        blockfile_path =  resolved_block_path + "Blockfile.rb"
+        raise "Undefined blockfile for #{path}" unless File.exists?(blockfile_path)
+        in_registration_scope resolved_block_path do
+          instance_eval File.read(blockfile_path)
+        end
+      end
+
+      def in_registration_scope resolved_block_path, &block
+        isolated_facade_registration_scope do
+          with_base_path(resolved_block_path) do
+            registration_scope :set, path: resolved_block_path
+            instance_eval &block
+            registration_scope :unset
+          end
+        end
+      end
+
+      def for_notification name, &block
+        @notification = {} unless defined? @notification
+        @notification[name] = [] unless @notification.has_key?(name)
+        @notification[name].push block
+      end
+
+      def notify name, opts = {}
+        if defined?(@notification) and @notification.has_key?(name)
+          @notification[name].each do |proc|
+            instance_exec opts, &proc
           end
         end
       end
@@ -73,9 +109,7 @@ module WebBlocks
       end
 
       def get_file_load_order type = RawFile
-
         ::WebBlocks::Support::TSort::Hash.try_convert(adjacency_list).tsort.keep_if(){ |file| file.is_a? type }
-
       end
 
     end
