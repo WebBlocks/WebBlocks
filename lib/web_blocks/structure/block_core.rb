@@ -175,7 +175,12 @@ module WebBlocks
 
         subpaths << attributes[:path] if attributes.has_key?(:path)
 
-        subpaths.reduce(:+).realpath
+        begin
+          subpaths.reduce(:+).realpath
+        rescue => e
+          puts "Error resolving block #{self.route} to path #{subpaths.reduce(:+).to_json} from #{subpaths.to_json}"
+          raise e
+        end
 
       end
 
