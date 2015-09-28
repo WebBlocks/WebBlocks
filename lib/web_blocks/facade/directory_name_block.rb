@@ -1,10 +1,9 @@
 require 'set'
 require 'web_blocks/facade/base'
-require 'web_blocks/facade/file_name_block'
 
 module WebBlocks
   module Facade
-    class RecursiveFileNamesBlock < Base
+    class DirectoryNameBlock < Base
 
       def handle name, attributes = {}, &block
 
@@ -17,31 +16,32 @@ module WebBlocks
         this.context.block name, attributes do |directory_block|
 
           directory_path = directory_block.resolved_path
-          directory_facade = ::WebBlocks::Facade::RecursiveFileNamesBlock.new(directory_block)
-          file_facade = ::WebBlocks::Facade::FileNameBlock.new(directory_block)
-          file_names = Set.new
+          js_file_names = Set.new
+          scss_file_names = Set.new
 
           Dir.entries(directory_path).each do |name|
             next if name == '.' or name == '..'
             path = "#{directory_path}/#{name}"
-            if File.directory? path
-              directory_facade.handle name, path: name
-            else
+            if File.file? path
               segs = name.split('.')
               ext = segs.pop
-              if ext == 'css' or ext == 'js'
-                file_names << segs.join('.')
+              if ext == 'css'
+                scss_file_names << "#{segs.join('.')}.css"
+              elsif ext == 'js'
+                js_file_names << "#{segs.join('.')}.js"
               elsif ext == 'scss'
-                file_names << segs.join('.').gsub(/^_/, '')
+                scss_file_names << segs.join('.').gsub(/^_/, '')
               end
             end
           end
 
-          file_names.each { |name| file_facade.handle name }
+          js_file_names.each { |name| directory_block.js_file name }
+          scss_file_names.each { |name| directory_block.scss_file name }
 
           directory_block.instance_eval &block if block_was_given
 
         end
+
       end
 
     end

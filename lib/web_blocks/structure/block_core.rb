@@ -1,3 +1,5 @@
+require 'extend_method'
+require 'web_blocks/facade/block'
 require 'web_blocks/framework'
 require 'web_blocks/structure/tree/node'
 require 'web_blocks/structure/attribute/dependency'
@@ -9,6 +11,10 @@ module WebBlocks
   module Structure
     class BlockCore < ::WebBlocks::Structure::Tree::Node
 
+      class << self
+        include ExtendMethod
+      end
+
       include WebBlocks::Framework
 
       include WebBlocks::Structure::Attribute::Dependency
@@ -16,8 +22,12 @@ module WebBlocks
       include WebBlocks::Structure::Attribute::ReverseDependency
       include WebBlocks::Structure::Attribute::ReverseLooseDependency
 
+      ##
+      # Methods supporting extending the block DSL with facades for non-primitive blocks
+      #
+
       def register_facade name, handler
-        @facade_map = {} unless defined? @facade_map
+        @facade_map = {} unless (defined?(@facade_map) and @facade_map)
         @facade_map[name.to_sym] = handler
       end
 
@@ -65,15 +75,113 @@ module WebBlocks
         handler.handle *arguments, &block
       end
 
-      def resolved_path
-        path = attributes.has_key?(:path) ? attributes[:path] : ''
-        if attributes.has_key? :base_path
-          Pathname.new(attributes[:base_path]) + path
+      ##
+      # Methods supporting pathing enabled by WebBlocks::Structure::Framework#register
+      #
+
+      def scoped_base_path
+        if defined?(@isolated_from_parent_scoped_base_path)
+          nil
+        elsif defined?(@scoped_base_path)
+          @scoped_base_path
         elsif parent
-          parent.resolved_path + path
+           parent.scoped_base_path
         else
-          Pathname.new(path)
+          nil
         end
+      end
+
+      def has_scoped_base_path?
+        return false if defined? @isolated_from_parent_scoped_base_path
+        return true if defined? @scoped_base_path
+        return true if (parent and parent.has_scoped_base_path?)
+        return false
+      end
+
+      def set_scoped_base_path path
+        @scoped_base_path = path
+      end
+
+      def isolate_subgraph_from_scoped_base_path!
+        @isolated_from_parent_scoped_base_path = true
+      end
+
+      def forget_scoped_base_path!
+        remove_instance_variable :@scoped_base_path if defined? @scoped_base_path
+        remove_instance_variable :@isolated_from_parent_scoped_base_path if defined? @isolated_from_parent_scoped_base_path
+        parent.forget_scoped_base_path! if parent
+      end
+
+      def with_base_path base_path, &block
+        set_scoped_base_path base_path
+        klass = Class.new(::WebBlocks::Facade::Block)
+        klass.class_variable_set :@@default_base_path, base_path
+        klass.class_eval do
+          def handle *params, &block
+            subblock = super *params, &block
+            default_base_path = self.class.class_variable_get(:@@default_base_path).to_s
+            subblock.define_singleton_method(:default_base_path){ default_base_path }
+            subblock
+          end
+        end
+        register_facade :block, klass
+        instance_eval &block
+        register_facade :block, ::WebBlocks::Facade::Block
+        forget_scoped_base_path!
+      end
+
+      # Extending set_parent method from WebBlocks::Support::Attributes::Container, which is included by way of
+      # inheritance through self.class -> WebBlocks::Structure::Tree::Node -> WebBlocks::Structure::Tree::LeafNode.
+      # This is required for WebBlocks::Structure::Framework#register.
+
+      extend_method :set_parent do |parent|
+        parent_method parent
+        if has_scoped_base_path?
+          if has? :path
+            path = get(:path).to_s
+            set :path, "#{scoped_base_path}/#{path}" unless path[0,1] == '/'
+            isolate_subgraph_from_scoped_base_path!
+          end
+        end
+      end
+
+      ##
+      # Methods available for interpreting and manipulating the block
+      #
+
+      def resolved_path
+
+        parents_except_root = parents
+
+        # we're not going to use the root's path for determining if there's an implicit path
+        root = parents_except_root.pop
+
+        # get the sub-paths
+        subpaths = []
+        parents_except_root.each do |p|
+          subpaths.unshift(p.get(:path)) if p.has?(:path)
+        end
+
+        if subpaths.length == 0
+          [self, parents_except_root].flatten.each do |p|
+            if p.respond_to? :default_base_path
+              subpaths.push(p.default_base_path)
+              break
+            end
+          end
+        end
+
+        subpaths.unshift(Pathname.new((root and root.has?(:path)) ? root.get(:path) : '.'))
+
+        subpaths << attributes[:path] if attributes.has_key?(:path)
+
+        begin
+          subpaths.reduce(:+).realpath
+        rescue => e
+          puts "Error resolving block #{self.route} to path #{subpaths.reduce(:+).to_json} from #{subpaths.to_json}"
+          raise e
+        end
+
       end
 
       def files
