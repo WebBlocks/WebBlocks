@@ -6,17 +6,17 @@ module WebBlocks
 
       def initialize context
         super context
-        @@component = nil unless defined? @@component
+        @@registration_scope = nil unless defined? @@registration_scope
       end
 
       def handle command = nil, data = {}, &block
         case command
           when :set
-            @@component = data
+            @@registration_scope = data
           when :unset
-            @@component = nil
+            @@registration_scope = nil
         end
-        @@component
+        @@registration_scope
       end
 
     end
